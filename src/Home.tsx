@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { Container, Snackbar } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
@@ -26,8 +26,6 @@ import apegif from "./apegif.gif";
 import Typography from "@material-ui/core/Typography";
 import { MintCountdown } from "./MintCountdown";
 import "./fonts.css";
-import createTheme from "@material-ui/core/styles/createTheme";
-import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -182,8 +180,8 @@ const Home = (props: HomeProps) => {
       setInfoState({ showInfo: true });
     }
   };
-  let theme = createTheme();
-  theme = responsiveFontSizes(theme);
+  // let theme = createTheme();
+  // theme = responsiveFontSizes(theme);
 
 
   return (

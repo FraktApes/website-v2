@@ -3,7 +3,8 @@ import * as anchor from "@project-serum/anchor";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { MintCountdown } from "./MintCountdown";
-import { toDate, formatNumber } from "./utils";
+// import { toDate, formatNumber } from "./utils";
+import { toDate } from "./utils";
 import { CandyMachineAccount } from "./candy-machine";
 
 type HeaderProps = {
@@ -78,13 +79,13 @@ export const Header = ({ candyMachine }: HeaderProps) => {
     </Grid>
   );
 };
-
-const getMintPrice = (candyMachine: CandyMachineAccount): string => {
-  const price = formatNumber.asNumber(
-    candyMachine.state.isPresale &&
-      candyMachine.state.whitelistMintSettings?.discountPrice
-      ? candyMachine.state.whitelistMintSettings?.discountPrice!
-      : candyMachine.state.price!
-  );
-  return `◎ ${price}`;
-};
+//
+// const getMintPrice = (candyMachine: CandyMachineAccount): string => {
+//   const price = formatNumber.asNumber(
+//     candyMachine.state.isPresale &&
+//       candyMachine.state.whitelistMintSettings?.discountPrice
+//       ? candyMachine.state.whitelistMintSettings?.discountPrice!
+//       : candyMachine.state.price!
+//   );
+//   return `◎ ${price}`;
+// };
