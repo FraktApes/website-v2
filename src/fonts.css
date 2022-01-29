@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'robo';
+    src: url(Roboto_Mono/static/RobotoMono-Regular.ttf)
+}
+
+@keyframes pulse {
+    0% {
+        color: white;
+    }
+    25% {
+        color: white;
+    }
+    75% {
+        color: grey;
+    }
+    50% {
+        color: white;
+    }
+}
