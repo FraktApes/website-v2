@@ -53,7 +53,9 @@ export const Header = ({ candyMachine }: HeaderProps) => {
                   fontWeight: "bold",
                 }}
               >
-                {`${candyMachine?.state.itemsRemaining}`}
+                {/*TODO UPDATE BEOFRE LAUNCH*/}
+                5000
+                {/*{`${candyMachine?.state.itemsRemaining}`}*/}
               </Typography>
             </Grid>
             <Grid container direction="column">
@@ -65,7 +67,9 @@ export const Header = ({ candyMachine }: HeaderProps) => {
                 color="textPrimary"
                 style={{ fontWeight: "bold" }}
               >
-                {getMintPrice(candyMachine)}
+                {/*TODO UPDATE BEOFRE LAUNCH*/}
+                ◎ 0.5
+                {/*{getMintPrice(candyMachine)}*/}
               </Typography>
             </Grid>
           </Grid>

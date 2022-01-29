@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { Container, Snackbar } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
@@ -26,6 +26,8 @@ import apegif from "./apegif.gif";
 import Typography from "@material-ui/core/Typography";
 import { MintCountdown } from "./MintCountdown";
 import "./fonts.css";
+import createTheme from "@material-ui/core/styles/createTheme";
+import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -180,18 +182,24 @@ const Home = (props: HomeProps) => {
       setInfoState({ showInfo: true });
     }
   };
+  let theme = createTheme();
+  theme = responsiveFontSizes(theme);
+
 
   return (
-    <Container style={{ marginTop: 50 }}>
+    // <ThemeProvider theme={theme}>
+    <Container className={"vignette"}>
+    <Container style={{ marginTop: 30}}>
       <Container>
         <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
           <Typography
             align="center"
-            variant="h1"
+            variant="h2"
             style={{ fontWeight: 1000, marginBottom: 5, fontFamily: "robo" }}
           >
             Frakt Apes.
           </Typography>
+
           <Typography
             align="center"
             variant="h6"
@@ -211,18 +219,18 @@ const Home = (props: HomeProps) => {
             style={{ marginRight: 10 }}
           >
             <i
-              className="fab fa-twitter fa-5x"
+              className="fab fa-twitter fa-3x"
               style={{ color: "#fff", opacity: 0.9 }}
             ></i>
           </Button>
           <Button
-            href={"https://discord.gg/SKPeV4k7vh"}
+            href={"https://discord.gg/ZBQx6wwz25"}
             target="_blank"
             rel="noreferrer"
             style={{ marginLeft: 10, marginRight: 10 }}
           >
             <i
-              className="fab fa-discord fa-5x"
+              className="fab fa-discord fa-3x"
               style={{
                 color: "#fff",
                 opacity: 0.9
@@ -231,35 +239,43 @@ const Home = (props: HomeProps) => {
           </Button>
           <Button onClick={toggleInfo} style={{ marginLeft: 10 }}>
             <i
-              className="fas fa-info-circle fa-5x"
-              style={{ color: "#fff", opacity: 0.9, animation: "pulse 3s infinite"}}
+              className="fas fa-info-circle fa-4x"
+              style={{ color: "#fff", opacity: 0.9, animation: "pulse 2s infinite"}}
             ></i>
           </Button>
         </Grid>
       </Container>
 
       {infoState.showInfo ? (
-        <Container maxWidth="sm" style={{ marginTop: 25 }}>
+        <Container maxWidth="sm" style={{ marginTop: 15 }}>
           <Paper
             style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
           >
             <Grid container direction="column" justifyContent="center">
-              <img src={apegif} alt="loading..." style={{ width: "100%" }}/>
+              <img src={apegif} alt="loading..." style={{ width: "75%", margin:"auto"}}/>
 
               <Typography
                 align="center"
-                variant="body1"
+                variant="body2"
                 style={{ color: "white", fontFamily: "robo", marginTop:10 }}
               >
-                Artificial Neural Networks from the teams's MEng masters thesis have been used to synthesise Degen Apes and Frakt Artwork together.
+                Artificial Neural Networks from Thorpe's MEng masters thesis have been used to synthesise Degen Apes and Frakt Artwork together.
               </Typography>
 
               <Typography
                 align="center"
-                variant="body1"
+                variant="body2"
                 style={{ color: "white", fontFamily: "robo", marginTop:10 }}
               >
                 A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad.
+              </Typography>
+
+              <Typography
+                align="center"
+                variant="body2"
+                style={{ color: "white", fontFamily: "robo", marginTop:10 }}
+              >
+                More information on the project (incl. whitelist) can be found in the discord.
               </Typography>
 
               {/*<Typography*/}
@@ -355,6 +371,8 @@ const Home = (props: HomeProps) => {
         </Alert>
       </Snackbar>
     </Container>
+    </Container>
+    // </ThemeProvider>
   );
 };
 

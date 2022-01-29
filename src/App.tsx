@@ -2,6 +2,7 @@ import "./App.css";
 import { useMemo } from "react";
 import * as anchor from "@project-serum/anchor";
 import Home from "./Home";
+import "./fonts.css";
 
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
@@ -21,12 +22,15 @@ import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 
 import { ThemeProvider, createTheme } from "@material-ui/core";
 import YoutubeBackground from "react-youtube-background";
+import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     type: "dark",
   },
 });
+
+theme = responsiveFontSizes(theme);
 
 const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
   try {
