@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
 import styled from "styled-components";
-import { Container, Snackbar } from "@material-ui/core";
+import { Container, createTheme, Snackbar } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
 import { PublicKey } from "@solana/web3.js";
@@ -183,6 +183,17 @@ const Home = (props: HomeProps) => {
   // let theme = createTheme();
   // theme = responsiveFontSizes(theme);
 
+  const theme = createTheme();
+
+  theme.typography.body1 = {
+    fontSize: '1.2rem',
+    '@media (min-width:600px)': {
+      fontSize: '1.5rem',
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '2.4rem',
+    },
+  };
 
   return (
     // <ThemeProvider theme={theme}>
@@ -195,7 +206,7 @@ const Home = (props: HomeProps) => {
             variant="h2"
             style={{ fontWeight: 1000, marginBottom: 5, fontFamily: "robo" }}
           >
-            Frakt Apes.
+            Frakt Apes
           </Typography>
 
           <Typography
@@ -245,7 +256,7 @@ const Home = (props: HomeProps) => {
       </Container>
 
       {infoState.showInfo ? (
-        <Container maxWidth="sm" style={{ marginTop: 15 }}>
+        <Container maxWidth="sm" style={{ marginTop: 15}}>
           <Paper
             style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
           >
@@ -254,7 +265,7 @@ const Home = (props: HomeProps) => {
 
               <Typography
                 align="center"
-                variant="body2"
+                variant="body1"
                 style={{ color: "white", fontFamily: "robo", marginTop:10 }}
               >
                 Artificial Neural Networks from Thorpe's MEng masters thesis have been used to synthesise Degen Apes and Frakt Artwork together.
@@ -262,7 +273,7 @@ const Home = (props: HomeProps) => {
 
               <Typography
                 align="center"
-                variant="body2"
+                variant="body1"
                 style={{ color: "white", fontFamily: "robo", marginTop:10 }}
               >
                 A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad.
@@ -270,7 +281,7 @@ const Home = (props: HomeProps) => {
 
               <Typography
                 align="center"
-                variant="body2"
+                variant="body1"
                 style={{ color: "white", fontFamily: "robo", marginTop:10 }}
               >
                 More information on the project (incl. whitelist) can be found in the discord.

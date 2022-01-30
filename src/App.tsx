@@ -32,6 +32,16 @@ let theme = createTheme({
 
 theme = responsiveFontSizes(theme);
 
+theme.typography.body1 = {
+  fontSize: '0.7rem',
+  '@media (min-width:600px)': {
+    fontSize: '0.9rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '1rem',
+  },
+};
+
 const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
   try {
     const candyMachineId = new anchor.web3.PublicKey(
