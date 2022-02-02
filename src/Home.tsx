@@ -223,10 +223,11 @@ const Home = (props: HomeProps) => {
     xl: 1536,
   }
   const matches = useMediaQuery(theme.breakpoints.up('lg'));
+  const matchesMobile = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     // <ThemeProvider theme={theme}>
-    <Container className={"vignette"}>
+    <Container className={(matchesMobile) ? "vignette": ""}>
       <Container style={{ marginTop: 30 }}>
         <Container>
           <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
