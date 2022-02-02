@@ -11,12 +11,12 @@ import {
   getSlopeWallet,
   getSolflareWallet,
   getSolletWallet,
-  getSolletExtensionWallet,
+  getSolletExtensionWallet
 } from "@solana/wallet-adapter-wallets";
 
 import {
   ConnectionProvider,
-  WalletProvider,
+  WalletProvider
 } from "@solana/wallet-adapter-react";
 import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 
@@ -26,21 +26,34 @@ import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 
 let theme = createTheme({
   palette: {
-    type: "dark",
+    type: "dark"
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1367,
+      xl: 1536
+    }
+  }
 });
 
 theme = responsiveFontSizes(theme);
 
 theme.typography.body1 = {
-  fontSize: '0.7rem',
-  '@media (min-width:600px)': {
-    fontSize: '0.9rem',
+  fontSize: "0.7rem",
+  [theme.breakpoints.up("md")]: {
+    fontSize: "0.8rem"
   },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '1rem',
+  [theme.breakpoints.up("lg")]: {
+    fontSize: "0.9rem"
   },
+  [theme.breakpoints.up("xl")]: {
+    fontSize: "1rem"
+  }
 };
+
 
 const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
   try {
@@ -74,18 +87,18 @@ const App = () => {
       getSolflareWallet(),
       getSlopeWallet(),
       getSolletWallet({ network }),
-      getSolletExtensionWallet({ network }),
+      getSolletExtensionWallet({ network })
     ],
     []
   );
 
-  const videoId = "yEcqxO_gGBw";
+  const videoId = "ZTX5jdcoMd8";
   const style = {
     position: "fixed",
     top: 0,
     left: 0,
     bottom: 0,
-    right: 0,
+    right: 0
   };
 
   return (

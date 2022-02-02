@@ -7,13 +7,10 @@
     0% {
         color: white;
     }
-    25% {
-        color: white;
-    }
-    75% {
+    50% {
         color: grey;
     }
-    50% {
+    100% {
         color: white;
     }
 }

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
 import styled from "styled-components";
-import { Container, createTheme, Snackbar } from "@material-ui/core";
+import { Container, Snackbar } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
 import { PublicKey } from "@solana/web3.js";
@@ -26,6 +26,8 @@ import apegif from "./apegif.gif";
 import Typography from "@material-ui/core/Typography";
 import { MintCountdown } from "./MintCountdown";
 import "./fonts.css";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -181,205 +183,237 @@ const Home = (props: HomeProps) => {
     }
   };
   // let theme = createTheme();
-  // theme = responsiveFontSizes(theme);
+  //
+  // const styles = (theme: Theme) => ({
+  //   root: {
+  //     margin: "auto",
+  //     [theme.breakpoints.down("md")]: {
+  //       width: "50%"
+  //     },
+  //     [theme.breakpoints.up("md")]: {
+  //       width: "75%"
+  //     },
+  //     [theme.breakpoints.up("lg")]: {
+  //       width: "90%"
+  //     }
+  //   }
+  // });
 
-  const theme = createTheme();
+  // const IMG2 = styled("img")(({ theme }) => ({
+  //   margin: "auto",
+  //   [theme.breakpoints.down("md")]: {
+  //     width: "50%"
+  //   },
+  //   [theme.breakpoints.up("md")]: {
+  //     width: "75%"
+  //   },
+  //   [theme.breakpoints.up("lg")]: {
+  //     width: "90%"
+  //   }
+  // }));
 
-  theme.typography.body1 = {
-    fontSize: '1.2rem',
-    '@media (min-width:600px)': {
-      fontSize: '1.5rem',
-    },
-    [theme.breakpoints.up('md')]: {
-      fontSize: '2.4rem',
-    },
-  };
+
+  const theme = useTheme();
+
+  theme.breakpoints.values =  {
+    xs: 0,
+    sm: 600,
+    md: 900,
+    lg: 1367,
+    xl: 1536,
+  }
+  const matches = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     // <ThemeProvider theme={theme}>
     <Container className={"vignette"}>
-    <Container style={{ marginTop: 30}}>
-      <Container>
-        <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
-          <Typography
-            align="center"
-            variant="h2"
-            style={{ fontWeight: 1000, marginBottom: 5, fontFamily: "robo" }}
-          >
-            Frakt Apes
-          </Typography>
+      <Container style={{ marginTop: 30 }}>
+        <Container>
+          <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
+            <Typography
+              align="center"
+              variant="h2"
+              style={{ fontWeight: 1000, marginBottom: 5, fontFamily: "robo" }}
+            >
+              Frakt Apes
+            </Typography>
 
-          <Typography
-            align="center"
-            variant="h6"
-            style={{ fontWeight: 400, marginBottom: 5, fontFamily: "robo" }}
-          >
-            Your gateway to NFTs built by AI.
-          </Typography>
-        </Grid>
-      </Container>
-
-      <Container maxWidth="sm" style={{ marginTop: 5 }}>
-        <Grid container direction="row" justifyContent="center">
-          <Button
-            href={"https://twitter.com/FraktApes"}
-            target="_blank"
-            rel="noreferrer"
-            style={{ marginRight: 10 }}
-          >
-            <i
-              className="fab fa-twitter fa-3x"
-              style={{ color: "#fff", opacity: 0.9 }}
-            ></i>
-          </Button>
-          <Button
-            href={"https://discord.gg/ZBQx6wwz25"}
-            target="_blank"
-            rel="noreferrer"
-            style={{ marginLeft: 10, marginRight: 10 }}
-          >
-            <i
-              className="fab fa-discord fa-3x"
-              style={{
-                color: "#fff",
-                opacity: 0.9
-              }}
-            ></i>
-          </Button>
-          <Button onClick={toggleInfo} style={{ marginLeft: 10 }}>
-            <i
-              className="fas fa-info-circle fa-4x"
-              style={{ color: "#fff", opacity: 0.9, animation: "pulse 2s infinite"}}
-            ></i>
-          </Button>
-        </Grid>
-      </Container>
-
-      {infoState.showInfo ? (
-        <Container maxWidth="sm" style={{ marginTop: 15}}>
-          <Paper
-            style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
-          >
-            <Grid container direction="column" justifyContent="center">
-              <img src={apegif} alt="loading..." style={{ width: "75%", margin:"auto"}}/>
-
-              <Typography
-                align="center"
-                variant="body1"
-                style={{ color: "white", fontFamily: "robo", marginTop:10 }}
-              >
-                Artificial Neural Networks from Thorpe's MEng masters thesis have been used to synthesise Degen Apes and Frakt Artwork together.
-              </Typography>
-
-              <Typography
-                align="center"
-                variant="body1"
-                style={{ color: "white", fontFamily: "robo", marginTop:10 }}
-              >
-                A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad.
-              </Typography>
-
-              <Typography
-                align="center"
-                variant="body1"
-                style={{ color: "white", fontFamily: "robo", marginTop:10 }}
-              >
-                More information on the project (incl. whitelist) can be found in the discord.
-              </Typography>
-
-              {/*<Typography*/}
-              {/*  align="center"*/}
-              {/*  variant="body1"*/}
-              {/*  style={{ color: "grey" }}*/}
-              {/*>*/}
-              {/*  Click the project info button again to mint.*/}
-              {/*</Typography>*/}
-            </Grid>
-          </Paper>
+            <Typography
+              align="center"
+              variant="h6"
+              style={{ fontWeight: 400, marginBottom: 5, fontFamily: "robo" }}
+            >
+              Your gateway to NFTs built by AI
+            </Typography>
+          </Grid>
         </Container>
-      ) : (
-        <Container maxWidth="sm" style={{ marginTop: 25 }}>
-          <Paper
-            style={{ padding: 24, backgroundColor: "#151A1F", borderRadius: 6 }}
-          >
-            {!wallet.connected ? (
+
+        <Container maxWidth="sm" style={{ marginTop: 5 }}>
+          <Grid container direction="row" justifyContent="center">
+            <Button
+              href={"https://twitter.com/FraktApes"}
+              target="_blank"
+              rel="noreferrer"
+              style={{ marginRight: 10 }}
+            >
+              <i
+                className="fab fa-twitter fa-3x"
+                style={{ color: "#fff", opacity: 0.9 }}
+              ></i>
+            </Button>
+            <Button
+              href={"https://discord.gg/ZBQx6wwz25"}
+              target="_blank"
+              rel="noreferrer"
+              style={{ marginLeft: 10, marginRight: 10 }}
+            >
+              <i
+                className="fab fa-discord fa-3x"
+                style={{
+                  color: "#fff",
+                  opacity: 0.9
+                }}
+              ></i>
+            </Button>
+            <Button onClick={toggleInfo} style={{ marginLeft: 10 }}>
+              <i
+                className="fas fa-info-circle fa-4x"
+                style={{ color: "#fff", opacity: 0.9, animation: "pulse 1s infinite" }}
+              ></i>
+            </Button>
+          </Grid>
+        </Container>
+
+        {infoState.showInfo ? (
+          <Container maxWidth="sm" style={{ marginTop: 15 }}>
+            <Paper
+              style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
+            >
               <Grid container direction="column" justifyContent="center">
+
+                {(matches) ? <img src={apegif} alt="loading..." style={{
+                  width: "80%",
+                  margin: "auto"
+                }}/> : <img src={apegif} alt="loading..." style={{ width: "60%", margin: "auto" }}/>}
+
                 <Typography
                   align="center"
                   variant="body1"
-                  style={{ color: "grey" }}
+                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  Time until mint.
+                  Artificial Neural Networks from Thorpe's MEng masters thesis have been used to synthesise Degen Apes
+                  and Frakt Artwork together.
                 </Typography>
-                <MintCountdown
-                  date={new Date(1644523200000)}
-                  style={{ justifyContent: "center" }}
-                  status={"PRESALE"}
-                />
-                <ConnectButton>Connect Wallet</ConnectButton>
+
+                <Typography
+                  align="center"
+                  variant="body1"
+                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                >
+                  A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad.
+                </Typography>
+
+                <Typography
+                  align="center"
+                  variant="body1"
+                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                >
+                  More information on the project (incl. whitelist) can be found in the discord.
+                </Typography>
+
                 {/*<Typography*/}
                 {/*  align="center"*/}
                 {/*  variant="body1"*/}
                 {/*  style={{ color: "grey" }}*/}
                 {/*>*/}
-                {/*  Click the project info button or connect your wallet.*/}
+                {/*  Click the project info button again to mint.*/}
                 {/*</Typography>*/}
               </Grid>
-            ) : (
-              <>
-                <Header candyMachine={candyMachine}/>
-                <MintContainer>
-                  {candyMachine?.state.isActive &&
-                  candyMachine?.state.gatekeeper &&
-                  wallet.publicKey &&
-                  wallet.signTransaction ? (
-                    <GatewayProvider
-                      wallet={{
-                        publicKey:
-                          wallet.publicKey ||
-                          new PublicKey(CANDY_MACHINE_PROGRAM),
-                        //@ts-ignore
-                        signTransaction: wallet.signTransaction
-                      }}
-                      gatekeeperNetwork={
-                        candyMachine?.state?.gatekeeper?.gatekeeperNetwork
-                      }
-                      clusterUrl={rpcUrl}
-                      options={{ autoShowModal: false }}
-                    >
+            </Paper>
+          </Container>
+        ) : (
+          <Container maxWidth="sm" style={{ marginTop: 25 }}>
+            <Paper
+              style={{ padding: 24, backgroundColor: "#151A1F", borderRadius: 6 }}
+            >
+              {!wallet.connected ? (
+                <Grid container direction="column" justifyContent="center">
+                  <Typography
+                    align="center"
+                    variant="body1"
+                    style={{ color: "grey" }}
+                  >
+                    Time until mint.
+                  </Typography>
+                  <MintCountdown
+                    date={new Date(1644523200000)}
+                    style={{ justifyContent: "center" }}
+                    status={"PRESALE"}
+                  />
+                  <ConnectButton>Connect Wallet</ConnectButton>
+                  {/*<Typography*/}
+                  {/*  align="center"*/}
+                  {/*  variant="body1"*/}
+                  {/*  style={{ color: "grey" }}*/}
+                  {/*>*/}
+                  {/*  Click the project info button or connect your wallet.*/}
+                  {/*</Typography>*/}
+                </Grid>
+              ) : (
+                <>
+                  <Header candyMachine={candyMachine}/>
+                  <MintContainer>
+                    {candyMachine?.state.isActive &&
+                    candyMachine?.state.gatekeeper &&
+                    wallet.publicKey &&
+                    wallet.signTransaction ? (
+                      <GatewayProvider
+                        wallet={{
+                          publicKey:
+                            wallet.publicKey ||
+                            new PublicKey(CANDY_MACHINE_PROGRAM),
+                          //@ts-ignore
+                          signTransaction: wallet.signTransaction
+                        }}
+                        gatekeeperNetwork={
+                          candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                        }
+                        clusterUrl={rpcUrl}
+                        options={{ autoShowModal: false }}
+                      >
+                        <MintButton
+                          candyMachine={candyMachine}
+                          isMinting={isUserMinting}
+                          onMint={onMint}
+                        />
+                      </GatewayProvider>
+                    ) : (
                       <MintButton
                         candyMachine={candyMachine}
                         isMinting={isUserMinting}
                         onMint={onMint}
                       />
-                    </GatewayProvider>
-                  ) : (
-                    <MintButton
-                      candyMachine={candyMachine}
-                      isMinting={isUserMinting}
-                      onMint={onMint}
-                    />
-                  )}
-                </MintContainer>
-              </>
-            )}
-          </Paper>
-        </Container>
-      )}
+                    )}
+                  </MintContainer>
+                </>
+              )}
+            </Paper>
+          </Container>
+        )}
 
-      <Snackbar
-        open={alertState.open}
-        autoHideDuration={6000}
-        onClose={() => setAlertState({ ...alertState, open: false })}
-      >
-        <Alert
+        <Snackbar
+          open={alertState.open}
+          autoHideDuration={6000}
           onClose={() => setAlertState({ ...alertState, open: false })}
-          severity={alertState.severity}
         >
-          {alertState.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+          <Alert
+            onClose={() => setAlertState({ ...alertState, open: false })}
+            severity={alertState.severity}
+          >
+            {alertState.message}
+          </Alert>
+        </Snackbar>
+      </Container>
     </Container>
     // </ThemeProvider>
   );
