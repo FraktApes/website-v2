@@ -347,7 +347,7 @@ const Home = (props: HomeProps) => {
                     Time until mint.
                   </Typography>
                   <MintCountdown
-                    date={new Date(1644523200000)}
+                    date={new Date(1646899200000)}
                     style={{ justifyContent: "center" }}
                     status={"PRESALE"}
                   />
