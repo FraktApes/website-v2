@@ -327,7 +327,7 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  Launching 10th March
+                  Launching 10th March.
                 </Typography>
 
                 {/*<Typography*/}
