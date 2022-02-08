@@ -322,6 +322,14 @@ const Home = (props: HomeProps) => {
                   More information on the project (incl. whitelist) can be found in the discord.
                 </Typography>
 
+                <Typography
+                  align="center"
+                  variant="body1"
+                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                >
+                  Launching 10th March
+                </Typography>
+
                 {/*<Typography*/}
                 {/*  align="center"*/}
                 {/*  variant="body1"*/}
