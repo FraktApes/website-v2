@@ -60,7 +60,7 @@ const Home = (props: HomeProps) => {
     severity: undefined
   });
   const [infoState, setInfoState] = useState<InfoState>({
-    showInfo: false
+    showInfo: true
   });
 
   const rpcUrl = props.rpcHost;
@@ -302,7 +302,7 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  Artificial Neural Networks from Thorpe's MEng masters thesis have been used to synthesise Degen Apes
+                  Artificial Neural Networks have been used to synthesise Degen Apes
                   and Frakt Artwork together.
                 </Typography>
 
@@ -311,7 +311,7 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad.
+                  A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad and further free airdrops.
                 </Typography>
 
                 <Typography
