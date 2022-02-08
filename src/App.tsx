@@ -49,9 +49,9 @@ theme.typography.body1 = {
   [theme.breakpoints.up("lg")]: {
     fontSize: "0.9rem"
   },
-  [theme.breakpoints.up("xl")]: {
-    fontSize: "1rem"
-  }
+  // [theme.breakpoints.up("xl")]: {
+  //   fontSize: "1rem"
+  // }
 };
 
 
