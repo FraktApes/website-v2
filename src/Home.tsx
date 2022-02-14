@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
 import styled from "styled-components";
@@ -28,6 +28,8 @@ import { MintCountdown } from "./MintCountdown";
 import "./fonts.css";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
+import Tooltip from "@material-ui/core/Tooltip";
+import HelpIcon from '@mui/icons-material/Help';
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -212,22 +214,21 @@ const Home = (props: HomeProps) => {
   //   }
   // }));
 
-
   const theme = useTheme();
 
-  theme.breakpoints.values =  {
+  theme.breakpoints.values = {
     xs: 0,
     sm: 600,
     md: 900,
     lg: 1367,
-    xl: 1536,
-  }
-  const matches = useMediaQuery(theme.breakpoints.up('lg'));
-  const matchesMobile = useMediaQuery(theme.breakpoints.up('md'));
+    xl: 1536
+  };
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  const matchesMobile = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     // <ThemeProvider theme={theme}>
-    <Container className={(matchesMobile) ? "vignette": ""}>
+    <Container className={(matchesMobile) ? "vignette" : ""}>
       <Container style={{ marginTop: 30 }}>
         <Container>
           <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
@@ -252,21 +253,10 @@ const Home = (props: HomeProps) => {
         <Container maxWidth="sm" style={{ marginTop: 5 }}>
           <Grid container direction="row" justifyContent="center">
             <Button
-              href={"https://twitter.com/FraktApes"}
+              href={"https://discord.gg/rMAUCujG7e"}
               target="_blank"
               rel="noreferrer"
-              style={{ marginRight: 10 }}
-            >
-              <i
-                className="fab fa-twitter fa-3x"
-                style={{ color: "#fff", opacity: 0.9 }}
-              ></i>
-            </Button>
-            <Button
-              href={"https://discord.gg/ZBQx6wwz25"}
-              target="_blank"
-              rel="noreferrer"
-              style={{ marginLeft: 10, marginRight: 10 }}
+              style={{marginRight: 10 }}
             >
               <i
                 className="fab fa-discord fa-3x"
@@ -276,10 +266,21 @@ const Home = (props: HomeProps) => {
                 }}
               ></i>
             </Button>
-            <Button onClick={toggleInfo} style={{ marginLeft: 10 }}>
+            <Button onClick={toggleInfo} style={{ marginRight: 8}}>
               <i
                 className="fas fa-info-circle fa-4x"
                 style={{ color: "#fff", opacity: 0.9, animation: "pulse 1s infinite" }}
+              ></i>
+            </Button>
+            <Button
+              href={"https://twitter.com/FraktApes"}
+              target="_blank"
+              rel="noreferrer"
+              style={{  }}
+            >
+              <i
+                className="fab fa-twitter fa-3x"
+                style={{ color: "#fff", opacity: 0.9 }}
               ></i>
             </Button>
           </Grid>
@@ -303,7 +304,7 @@ const Home = (props: HomeProps) => {
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
                   Artificial Neural Networks have been used to synthesise Degen Apes
-                  and Frakt Artwork together.
+                  and FRAKT artwork into a blended image.
                 </Typography>
 
                 <Typography
@@ -311,7 +312,8 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad and further free airdrops.
+                  A Neuralism Pass will be included with each purchase, giving buyers access to an AI NFT Launchpad and
+                  further free airdrops.
                 </Typography>
 
                 <Typography
@@ -319,7 +321,7 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  More information on the project (incl. whitelist) can be found in the discord.
+                  More information on the project (incl. whitelist) can be found in the Discord link above.
                 </Typography>
 
                 <Typography
@@ -327,7 +329,7 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  Launching 10th March.
+                  Launching: TBD
                 </Typography>
 
                 {/*<Typography*/}
@@ -343,22 +345,53 @@ const Home = (props: HomeProps) => {
         ) : (
           <Container maxWidth="sm" style={{ marginTop: 25 }}>
             <Paper
-              style={{ padding: 24, backgroundColor: "#151A1F", borderRadius: 6 }}
+              style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
             >
               {!wallet.connected ? (
                 <Grid container direction="column" justifyContent="center">
+                  <Grid container direction="row" justifyContent="center" style={{ marginBottom:2 }}>
                   <Typography
                     align="center"
                     variant="body1"
                     style={{ color: "grey" }}
                   >
-                    Time until mint.
+                    Mint Countdown
                   </Typography>
+
+                    <Tooltip
+                      title="Best Practice: Use a new/burner wallet when minting, nefarious projects will try and steal your funds with malicious smart contracts"
+                      style={{marginLeft:4, color:"grey", fontSize:"1.05em"}}>
+                      <HelpIcon fontSize="small" />
+
+                    </Tooltip>
+                  </Grid>
+
+                  {/*<Tooltip*/}
+                  {/*  title="Always use a new/burner wallet when minting, some nefarious projects will try and steal your funds">*/}
+                  {/*  <Button>*/}
+                  {/*    <i*/}
+                  {/*    className="fa-solid fa-circle-question fa-1x"*/}
+                  {/*    style={{ color: "#fff" }}*/}
+                  {/*  ></i>*/}
+                  {/*  </Button>*/}
+                  {/*</Tooltip>*/}
+                  {/*    <Button*/}
+                  {/*      // style={{ marginLeft: 10 }}*/}
+                  {/*    >*/}
+                  {/*      <i*/}
+                  {/*        className="fa-solid fa-circle-question fa-1x"*/}
+                  {/*        style={{ color: "#fff" }}*/}
+                  {/*      ></i>*/}
+                  {/*    </Button>*/}
+                  {/*  </Tooltip>*/}
+                  {/*</Grid>*/}
+
                   <MintCountdown
                     date={new Date(1646899200000)}
                     style={{ justifyContent: "center" }}
                     status={"PRESALE"}
                   />
+
                   <ConnectButton>Connect Wallet</ConnectButton>
                   {/*<Typography*/}
                   {/*  align="center"*/}
