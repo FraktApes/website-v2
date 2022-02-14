@@ -22,7 +22,7 @@ import { GatewayProvider } from "@civic/solana-gateway-react";
 import Grid from "@material-ui/core/Grid";
 import "@fortawesome/fontawesome-free/js/all.js";
 import Button from "@material-ui/core/Button";
-import apegif from "./apegif.gif";
+import apecompress from "./apecompress.webp";
 import Typography from "@material-ui/core/Typography";
 import { MintCountdown } from "./MintCountdown";
 import "./fonts.css";
@@ -293,10 +293,10 @@ const Home = (props: HomeProps) => {
             >
               <Grid container direction="column" justifyContent="center">
 
-                {(matches) ? <img src={apegif} alt="loading..." style={{
+                {(matches) ? <img src={apecompress} alt="loading..." style={{
                   width: "80%",
                   margin: "auto"
-                }}/> : <img src={apegif} alt="loading..." style={{ width: "60%", margin: "auto" }}/>}
+                }}/> : <img src={apecompress} alt="loading..." style={{ width: "60%", margin: "auto" }}/>}
 
                 <Typography
                   align="center"
