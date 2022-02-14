@@ -345,105 +345,106 @@ const Home = (props: HomeProps) => {
           </Container>
         ) : (
           <Container maxWidth="sm" style={{ marginTop: 25 }}>
-            {/*<Paper*/}
-            {/*  style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}*/}
-            {/*>*/}
-            {/*  {!wallet.connected ? (*/}
-            {/*    <Grid container direction="column" justifyContent="center">*/}
-            {/*      <Grid container direction="row" justifyContent="center" style={{ marginBottom:2 }}>*/}
-            {/*      <Typography*/}
-            {/*        align="center"*/}
-            {/*        variant="body1"*/}
-            {/*        style={{ color: "grey" }}*/}
-            {/*      >*/}
-            {/*        Mint Countdown*/}
-            {/*      </Typography>*/}
+            <Paper
+              style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
+              hidden
+            >
+              {!wallet.connected ? (
+                <Grid container direction="column" justifyContent="center">
+                  <Grid container direction="row" justifyContent="center" style={{ marginBottom:2 }}>
+                  <Typography
+                    align="center"
+                    variant="body1"
+                    style={{ color: "grey" }}
+                  >
+                    Mint Countdown
+                  </Typography>
 
-            {/*        <Tooltip*/}
-            {/*          title="Best Practice: Use a new/burner wallet when minting, nefarious projects will try and steal your funds with malicious smart contracts"*/}
-            {/*          style={{marginLeft:4, color:"grey", fontSize:"1.05em"}}>*/}
-            {/*          <HelpIcon fontSize="small" />*/}
+                    <Tooltip
+                      title="Best Practice: Use a new/burner wallet when minting, nefarious projects will try and steal your funds with malicious smart contracts"
+                      style={{marginLeft:4, color:"grey", fontSize:"1.05em"}}>
+                      <HelpIcon fontSize="small" />
 
-            {/*        </Tooltip>*/}
-            {/*      </Grid>*/}
+                    </Tooltip>
+                  </Grid>
 
-            {/*      /!*<Tooltip*!/*/}
-            {/*      /!*  title="Always use a new/burner wallet when minting, some nefarious projects will try and steal your funds">*!/*/}
-            {/*      /!*  <Button>*!/*/}
-            {/*      /!*    <i*!/*/}
-            {/*      /!*    className="fa-solid fa-circle-question fa-1x"*!/*/}
-            {/*      /!*    style={{ color: "#fff" }}*!/*/}
-            {/*      /!*  ></i>*!/*/}
-            {/*      /!*  </Button>*!/*/}
-            {/*      /!*</Tooltip>*!/*/}
-            {/*      /!*    <Button*!/*/}
-            {/*      /!*      // style={{ marginLeft: 10 }}*!/*/}
-            {/*      /!*    >*!/*/}
-            {/*      /!*      <i*!/*/}
-            {/*      /!*        className="fa-solid fa-circle-question fa-1x"*!/*/}
-            {/*      /!*        style={{ color: "#fff" }}*!/*/}
-            {/*      /!*      ></i>*!/*/}
-            {/*      /!*    </Button>*!/*/}
-            {/*      /!*  </Tooltip>*!/*/}
-            {/*      /!*</Grid>*!/*/}
+                  {/*<Tooltip*/}
+                  {/*  title="Always use a new/burner wallet when minting, some nefarious projects will try and steal your funds">*/}
+                  {/*  <Button>*/}
+                  {/*    <i*/}
+                  {/*    className="fa-solid fa-circle-question fa-1x"*/}
+                  {/*    style={{ color: "#fff" }}*/}
+                  {/*  ></i>*/}
+                  {/*  </Button>*/}
+                  {/*</Tooltip>*/}
+                  {/*    <Button*/}
+                  {/*      // style={{ marginLeft: 10 }}*/}
+                  {/*    >*/}
+                  {/*      <i*/}
+                  {/*        className="fa-solid fa-circle-question fa-1x"*/}
+                  {/*        style={{ color: "#fff" }}*/}
+                  {/*      ></i>*/}
+                  {/*    </Button>*/}
+                  {/*  </Tooltip>*/}
+                  {/*</Grid>*/}
 
 
-            {/*      */}
-            {/*      */}
-            {/*      <MintCountdown*/}
-            {/*        date={new Date(1646899200000)}*/}
-            {/*        style={{ justifyContent: "center" }}*/}
-            {/*        status={"PRESALE"}*/}
-            {/*      />*/}
 
-            {/*      <ConnectButton>Connect Wallet</ConnectButton>*/}
-            {/*      /!*<Typography*!/*/}
-            {/*      /!*  align="center"*!/*/}
-            {/*      /!*  variant="body1"*!/*/}
-            {/*      /!*  style={{ color: "grey" }}*!/*/}
-            {/*      /!*>*!/*/}
-            {/*      /!*  Click the project info button or connect your wallet.*!/*/}
-            {/*      /!*</Typography>*!/*/}
-            {/*    </Grid>*/}
-            {/*  ) : (*/}
-            {/*    <>*/}
-            {/*      <Header candyMachine={candyMachine}/>*/}
-            {/*      <MintContainer>*/}
-            {/*        {candyMachine?.state.isActive &&*/}
-            {/*        candyMachine?.state.gatekeeper &&*/}
-            {/*        wallet.publicKey &&*/}
-            {/*        wallet.signTransaction ? (*/}
-            {/*          <GatewayProvider*/}
-            {/*            wallet={{*/}
-            {/*              publicKey:*/}
-            {/*                wallet.publicKey ||*/}
-            {/*                new PublicKey(CANDY_MACHINE_PROGRAM),*/}
-            {/*              //@ts-ignore*/}
-            {/*              signTransaction: wallet.signTransaction*/}
-            {/*            }}*/}
-            {/*            gatekeeperNetwork={*/}
-            {/*              candyMachine?.state?.gatekeeper?.gatekeeperNetwork*/}
-            {/*            }*/}
-            {/*            clusterUrl={rpcUrl}*/}
-            {/*            options={{ autoShowModal: false }}*/}
-            {/*          >*/}
-            {/*            <MintButton*/}
-            {/*              candyMachine={candyMachine}*/}
-            {/*              isMinting={isUserMinting}*/}
-            {/*              onMint={onMint}*/}
-            {/*            />*/}
-            {/*          </GatewayProvider>*/}
-            {/*        ) : (*/}
-            {/*          <MintButton*/}
-            {/*            candyMachine={candyMachine}*/}
-            {/*            isMinting={isUserMinting}*/}
-            {/*            onMint={onMint}*/}
-            {/*          />*/}
-            {/*        )}*/}
-            {/*      </MintContainer>*/}
-            {/*    </>*/}
-            {/*  )}*/}
-            {/*</Paper>*/}
+
+                  <MintCountdown
+                    date={new Date(1646899200000)}
+                    style={{ justifyContent: "center" }}
+                    status={"PRESALE"}
+                  />
+
+                  <ConnectButton>Connect Wallet</ConnectButton>
+                  {/*<Typography*/}
+                  {/*  align="center"*/}
+                  {/*  variant="body1"*/}
+                  {/*  style={{ color: "grey" }}*/}
+                  {/*>*/}
+                  {/*  Click the project info button or connect your wallet.*/}
+                  {/*</Typography>*/}
+                </Grid>
+              ) : (
+                <>
+                  <Header candyMachine={candyMachine}/>
+                  <MintContainer>
+                    {candyMachine?.state.isActive &&
+                    candyMachine?.state.gatekeeper &&
+                    wallet.publicKey &&
+                    wallet.signTransaction ? (
+                      <GatewayProvider
+                        wallet={{
+                          publicKey:
+                            wallet.publicKey ||
+                            new PublicKey(CANDY_MACHINE_PROGRAM),
+                          //@ts-ignore
+                          signTransaction: wallet.signTransaction
+                        }}
+                        gatekeeperNetwork={
+                          candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                        }
+                        clusterUrl={rpcUrl}
+                        options={{ autoShowModal: false }}
+                      >
+                        <MintButton
+                          candyMachine={candyMachine}
+                          isMinting={isUserMinting}
+                          onMint={onMint}
+                        />
+                      </GatewayProvider>
+                    ) : (
+                      <MintButton
+                        candyMachine={candyMachine}
+                        isMinting={isUserMinting}
+                        onMint={onMint}
+                      />
+                    )}
+                  </MintContainer>
+                </>
+              )}
+            </Paper>
           </Container>
         )}
 
