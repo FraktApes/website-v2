@@ -231,7 +231,7 @@ const Home = (props: HomeProps) => {
   return (
     // <ThemeProvider theme={theme}>
     <Container className={(matchesMobile) ? "vignette" : ""} style={{ overflowY:"scroll", maxHeight: "100vh"}}>
-      <Container style={{ marginTop: 30 }}>
+      <Container style={{ marginTop: 30, marginBottom:20 }}>
         <Container>
           <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
             <Typography
