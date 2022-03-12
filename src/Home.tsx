@@ -306,7 +306,7 @@ const Home = (props: HomeProps) => {
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
                   Artificial Neural Networks have been used to combine Degen Apes
-                  and FRAKT artwork into a blended image.
+                  and FRAKT artwork into blended Frakt Apes.
                 </Typography>
 
                 <Typography
@@ -314,8 +314,8 @@ const Home = (props: HomeProps) => {
                   variant="body1"
                   style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                 >
-                  A Neuralism Pass will be included with each purchase, giving buyers access to a future AI NFT Launchpad and
-                  free airdrops.
+                  888 Genisis Apes have been created from the rarest Degen Apes and FRAKT artwork.
+                  Owning a Genesis apes will give the utility of access to an AI NFT Launchpad.
                 </Typography>
 
                 <Typography
