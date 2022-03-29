@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
 import styled from "styled-components";
-import { Container, Snackbar } from "@material-ui/core";
+import { AppBar, Box, Container, Link, Snackbar, Tab, Tabs } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
 import { PublicKey } from "@solana/web3.js";
@@ -30,6 +30,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Tooltip from "@material-ui/core/Tooltip";
 import HelpIcon from '@mui/icons-material/Help';
+import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -228,10 +229,17 @@ const Home = (props: HomeProps) => {
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
   const matchesMobile = useMediaQuery(theme.breakpoints.up("md"));
 
+  const [value, setValue] = React.useState('1');
+
+  const handleChange = (event: any, newValue: string) => {
+    setValue(newValue);
+  };
+
+
   return (
     // <ThemeProvider theme={theme}>
-    <Container className={(matchesMobile) ? "vignette" : ""} style={{ overflowY:"scroll", maxHeight: "100vh"}}>
-      <Container style={{ marginTop: 30, marginBottom:20 }}>
+    <Container className={(matchesMobile) ? "vignette" : ""} style={{ overflowY: "scroll", maxHeight: "100vh" }}>
+      <Container style={{ marginTop: 30, marginBottom: 20 }}>
         <Container>
           <Grid container direction="column" justifyContent="center" style={{ color: "white" }}>
             <Typography
@@ -258,7 +266,7 @@ const Home = (props: HomeProps) => {
               href={"https://discord.gg/rMAUCujG7e"}
               target="_blank"
               rel="noreferrer"
-              style={{marginRight: 10 }}
+              style={{ marginRight: 10 }}
             >
               <i
                 className="fab fa-discord fa-3x"
@@ -268,7 +276,7 @@ const Home = (props: HomeProps) => {
                 }}
               ></i>
             </Button>
-            <Button onClick={toggleInfo} style={{ marginRight: 8}}>
+            <Button onClick={toggleInfo} style={{ marginRight: 8 }}>
               <i
                 className="fas fa-info-circle fa-4x"
                 style={{ color: "#fff", opacity: 0.9, animation: "pulse 1s infinite" }}
@@ -278,7 +286,7 @@ const Home = (props: HomeProps) => {
               href={"https://twitter.com/FraktApes"}
               target="_blank"
               rel="noreferrer"
-              style={{  }}
+              style={{}}
             >
               <i
                 className="fab fa-twitter fa-3x"
@@ -291,56 +299,70 @@ const Home = (props: HomeProps) => {
         {infoState.showInfo ? (
           <Container maxWidth="sm" style={{ marginTop: 15 }}>
             <Paper
-              style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6 }}
+              style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6, paddingTop: 0 }}
             >
-              <Grid container direction="column" justifyContent="center">
+              
 
-                {(matches) ? <img src={apecompress} alt="loading..." style={{
-                  width: "80%",
-                  margin: "auto"
-                }}/> : <img src={apecompress} alt="loading..." style={{ width: "60%", margin: "auto" }}/>}
+                <TabContext value={value}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList onChange={handleChange} variant="fullWidth">
+                      <Tab style={{fontFamily: "robo"}} label="AI Launchpad" value="1" />
+                      <Tab label="Genesis Series" value="2" />
+                      <Tab label="Free Mint" value="3" />
+                    </TabList>
+                  </Box>
 
-                <Typography
-                  align="center"
-                  variant="body1"
-                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
-                >
-                  Artificial Neural Networks have been used to combine Degen Apes
-                  and FRAKT artwork into blended Frakt Apes.
-                </Typography>
+                  <TabPanel value="1">Launchpad</TabPanel>
 
-                <Typography
-                  align="center"
-                  variant="body1"
-                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
-                >
-                  888 Genisis Apes have been created from the rarest Degen Apes and FRAKT artwork.
-                  Owning a Genesis apes will give the utility of access to an AI NFT Launchpad.
-                </Typography>
+                  <TabPanel value="2">
 
-                <Typography
-                  align="center"
-                  variant="body1"
-                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
-                >
-                  More information on the project (incl. whitelist) can be found in the Discord link above.
-                </Typography>
+                  <Grid container direction="column" justifyContent="center">
 
-                <Typography
-                  align="center"
-                  variant="body1"
-                  style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
-                >
-                </Typography>
+                    <img src={apecompress} alt="loading..." style={{
+                      width: "80%",
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }} />
 
-                {/*<Typography*/}
-                {/*  align="center"*/}
-                {/*  variant="body1"*/}
-                {/*  style={{ color: "grey" }}*/}
-                {/*>*/}
-                {/*  Click the project info button again to mint.*/}
-                {/*</Typography>*/}
-              </Grid>
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                    >
+                      Artificial Neural Networks have been used to combine Degen Apes
+                      and FRAKT artwork, two OG Solana NFT projects.
+                    </Typography>
+
+                    <Link variant="body1" align="center" style={{ fontFamily: "robo", margin: "auto" }} href="https://www.degenape.academy/">See Degen Ape Academy</Link>
+                    <Link variant="body1" style={{ fontFamily: "robo", margin: "auto" }} href="http://www.frakt.art/">See FRAKT</Link>
+
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                    >
+                      888 Genisis Magenta Apes have been created from the rarest Degen Apes and FRAKT artwork.
+                      Owning a Genesis apes will give access to the AI NFT Launchpad.
+                    </Typography>
+
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                    >
+                      More information on the project (incl. whitelist) can be found in the Discord link above.
+                    </Typography>
+                    </Grid>
+                    </TabPanel>
+                  <TabPanel value="3">Claim Free NFT HERE</TabPanel>
+                </TabContext>
+        
+
+
+
+
+
+              
             </Paper>
           </Container>
         ) : (
@@ -351,18 +373,18 @@ const Home = (props: HomeProps) => {
             >
               {!wallet.connected ? (
                 <Grid container direction="column" justifyContent="center">
-                  <Grid container direction="row" justifyContent="center" style={{ marginBottom:2 }}>
-                  <Typography
-                    align="center"
-                    variant="body1"
-                    style={{ color: "grey" }}
-                  >
-                    Mint Countdown
-                  </Typography>
+                  <Grid container direction="row" justifyContent="center" style={{ marginBottom: 2 }}>
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "grey" }}
+                    >
+                      Mint Countdown
+                    </Typography>
 
                     <Tooltip
                       title="Best Practice: Use a new/burner wallet when minting, nefarious projects will try and steal your funds with malicious smart contracts"
-                      style={{marginLeft:4, color:"grey", fontSize:"1.05em"}}>
+                      style={{ marginLeft: 4, color: "grey", fontSize: "1.05em" }}>
                       <HelpIcon fontSize="small" />
 
                     </Tooltip>
@@ -408,12 +430,12 @@ const Home = (props: HomeProps) => {
                 </Grid>
               ) : (
                 <>
-                  <Header candyMachine={candyMachine}/>
+                  <Header candyMachine={candyMachine} />
                   <MintContainer>
                     {candyMachine?.state.isActive &&
-                    candyMachine?.state.gatekeeper &&
-                    wallet.publicKey &&
-                    wallet.signTransaction ? (
+                      candyMachine?.state.gatekeeper &&
+                      wallet.publicKey &&
+                      wallet.signTransaction ? (
                       <GatewayProvider
                         wallet={{
                           publicKey:
