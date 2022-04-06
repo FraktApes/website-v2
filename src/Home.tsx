@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 import * as anchor from "@project-serum/anchor";
 
 import styled from "styled-components";
-import { AppBar, Box, Container, Link, Snackbar, Tab, Tabs } from "@material-ui/core";
+import { Box, Container, Link, Snackbar, Tab } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
 import { PublicKey } from "@solana/web3.js";
@@ -31,6 +31,8 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import Tooltip from "@material-ui/core/Tooltip";
 import HelpIcon from '@mui/icons-material/Help';
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
+import MintPaper from "./components/MintPaper";
+import WhiteApeBanner from "./images/white-apes-banner2.png"
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -226,7 +228,7 @@ const Home = (props: HomeProps) => {
     lg: 1367,
     xl: 1536
   };
-  const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  // const matches = useMediaQuery(theme.breakpoints.up("lg"));
   const matchesMobile = useMediaQuery(theme.breakpoints.up("md"));
 
   const [value, setValue] = React.useState('1');
@@ -278,7 +280,7 @@ const Home = (props: HomeProps) => {
             </Button>
             <Button onClick={toggleInfo} style={{ marginRight: 8 }}>
               <i
-                className="fas fa-info-circle fa-4x"
+                className="fa fa-home fa-4x"
                 style={{ color: "#fff", opacity: 0.9, animation: "pulse 1s infinite" }}
               ></i>
             </Button>
@@ -301,20 +303,36 @@ const Home = (props: HomeProps) => {
             <Paper
               style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 6, paddingTop: 0 }}
             >
-              
 
-                <TabContext value={value}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} variant="fullWidth">
-                      <Tab style={{fontFamily: "robo"}} label="AI Launchpad" value="1" />
-                      <Tab label="Genesis Series" value="2" />
-                      <Tab label="Free Mint" value="3" />
-                    </TabList>
-                  </Box>
+              <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <TabList onChange={handleChange} variant="fullWidth">
+                    <Tab style={{ fontFamily: "robo" }} label="AI Launchpad" value="1" />
+                    <Tab label="Genesis Series" value="2" />
+                    <Tab label="Info" value="3" />
+                  </TabList>
+                </Box>
 
-                  <TabPanel value="1">Launchpad</TabPanel>
+                <TabPanel value="1">
+                  <Grid container spacing={2} direction="column">
+                    <Grid item>
+                      <MintPaper name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
+                      </MintPaper>
+                    </Grid>
+                    <Grid item>
+                      <MintPaper countdownTime={new Date().getTime() + 86400000 / 2}>
+                      </MintPaper>
+                    </Grid>
+                    <Grid item>
+                      <MintPaper countdownTime={new Date().getTime() + 86400000}>
+                      </MintPaper>
+                    </Grid>
+                  </Grid>
 
-                  <TabPanel value="2">
+
+                </TabPanel>
+
+                <TabPanel value="2">
 
                   <Grid container direction="column" justifyContent="center">
 
@@ -329,20 +347,10 @@ const Home = (props: HomeProps) => {
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                     >
-                      Artificial Neural Networks have been used to combine Degen Apes
-                      and FRAKT artwork, two OG Solana NFT projects.
-                    </Typography>
-
-                    <Link variant="body1" align="center" style={{ fontFamily: "robo", margin: "auto" }} href="https://www.degenape.academy/">See Degen Ape Academy</Link>
-                    <Link variant="body1" style={{ fontFamily: "robo", margin: "auto" }} href="http://www.frakt.art/">See FRAKT</Link>
-
-                    <Typography
-                      align="center"
-                      variant="body1"
-                      style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
-                    >
-                      888 Genisis Magenta Apes have been created from the rarest Degen Apes and FRAKT artwork.
-                      Owning a Genesis apes will give access to the AI NFT Launchpad.
+                      Artificial Neural Networks have been used to combine
+                      <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 5, paddingRight: 5 }} href="https://www.degenape.academy/">The Degen Ape Academy</Link>
+                      and
+                      <Link variant="body1" underline="always" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 5 }} href="http://www.frakt.art/">FRAKT</Link>, two OG Solana NFT projects.
                     </Typography>
 
                     <Typography
@@ -350,19 +358,33 @@ const Home = (props: HomeProps) => {
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                     >
-                      More information on the project (incl. whitelist) can be found in the Discord link above.
+                      888 Genisis Apes have been created from the rarest Degen Apes and FRAKT artwork.
+                      Owning a Genesis apes will give access to all the free AI NFT Launchpad mints.
                     </Typography>
-                    </Grid>
-                    </TabPanel>
-                  <TabPanel value="3">Claim Free NFT HERE</TabPanel>
-                </TabContext>
-        
 
+                    <Typography
+                        align="center"
+                        variant="body1"
+                        style={{ color: "white", fontFamily: "robo", marginTop: 20 }}
+                    >
+                        Required to mint:
+                    </Typography>
+                    <Typography
+                        align="center"
+                        variant="body1"
+                        style={{ color: "white", fontFamily: "robo" }}
+                    >
+                        2 SOL
+                    </Typography>
 
+                    <Button style={{ background: "#36454F", color: "white", fontFamily: "robo", marginTop: 10 }} >
+                      Mint
+                    </Button>
+                  </Grid>
+                </TabPanel>
+                <TabPanel value="3"></TabPanel>
+              </TabContext>
 
-
-
-              
             </Paper>
           </Container>
         ) : (
@@ -416,7 +438,6 @@ const Home = (props: HomeProps) => {
                   <MintCountdown
                     date={new Date(1646899200000)}
                     style={{ justifyContent: "center" }}
-                    status={"PRESALE"}
                   />
 
                   <ConnectButton>Connect Wallet</ConnectButton>

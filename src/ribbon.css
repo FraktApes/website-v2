@@ -1,0 +1,35 @@
+.parent {
+    overflow: hidden; /* required */
+    position: relative; /* required  for demo*/
+  }
+  
+  .ribbon {
+    margin: 0;
+    padding: 0; 
+    background: rgb(153, 51, 51);
+    color:white;
+    padding:0px 0;
+    position: absolute;
+    top:0;
+    right:0;
+    transform: translateX(30%) translateY(0%) rotate(45deg);
+    transform-origin: top left;
+  }
+  .ribbon:before,
+  .ribbon:after {
+    content: '';
+    position: absolute;
+    top:0;
+    margin: 0 -1px; /* tweak */
+    width: 200%;
+    height: 100%;
+    background: rgb(153, 51, 51);
+  }
+  .ribbon:before {
+    right:100%;
+  }
+  
+  .ribbon:after {
+    left:100%;
+  }
+  
