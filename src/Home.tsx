@@ -358,8 +358,8 @@ const Home = (props: HomeProps) => {
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                     >
-                      888 Genisis Apes have been created from the rarest Degen Apes and FRAKT artwork.
-                      Owning a Genesis apes will give access to all the free AI NFT Launchpad mints.
+                      888 Genesis Apes have been created from the rarest Degen Apes and FRAKT artwork.
+                      Owning a Genesis ape will give access to all the free AI NFT Launchpad mints.
                     </Typography>
 
                     <Typography

@@ -32,13 +32,13 @@ const MintModal: FunctionComponent<Props> = ({
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container direction="column" justifyContent="center">
-                    <Typography
+                    {/* <Typography
                         align="center"
                         variant="body1"
                         style={{ color: "white", fontFamily: "robo" }}
                     >
                         Required to mint: DEGEN APE or FRAKT or WL
-                    </Typography>
+                    </Typography> */}
 
                     <img src={WhiteApe} alt="loading ..." style={{
                         width: "70%",
