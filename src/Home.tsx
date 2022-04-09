@@ -232,7 +232,7 @@ const Home = (props: HomeProps) => {
   // const matches = useMediaQuery(theme.breakpoints.up("lg"));
   const matchesMobile = useMediaQuery(theme.breakpoints.up("md"));
 
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState('2');
 
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
@@ -309,7 +309,7 @@ const Home = (props: HomeProps) => {
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <TabList onChange={handleChange} variant="fullWidth">
                     <Tab style={{ fontFamily: "robo" }} label="AI Launchpad" value="1" />
-                    <Tab label="Genesis Series" value="2" />
+                    <Tab label="Genesis Apes" value="2" />
                     <Tab label="Info" value="3" />
                   </TabList>
                 </Box>
@@ -317,15 +317,15 @@ const Home = (props: HomeProps) => {
                 <TabPanel value="1">
                   <Grid container spacing={2} direction="column">
                     <Grid item>
-                      <MintPaper connected={wallet.connected} name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
+                      <MintPaper tooltip="Requires: Degen Ape or FRAKT or WL" connected={wallet.connected} name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
                       </MintPaper>
                     </Grid>
                     <Grid item>
-                      <MintPaper connected={wallet.connected} countdownTime={new Date().getTime() + 86400000 / 2}>
+                      <MintPaper tooltip="Requires: Genesis Ape or 1 SOL" connected={wallet.connected} countdownTime={new Date().getTime() + 86400000 / 2}>
                       </MintPaper>
                     </Grid>
                     <Grid item>
-                      <MintPaper connected={wallet.connected} countdownTime={new Date().getTime() + 86400000}>
+                      <MintPaper tooltip="Requires: Genesis Ape or 1 SOL" connected={wallet.connected} countdownTime={new Date().getTime() + 86400000}>
                       </MintPaper>
                     </Grid>
                   </Grid>
@@ -486,13 +486,13 @@ const Home = (props: HomeProps) => {
                       A Project by 
                       <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 8}} href="https://twitter.com/PatchNFT">Patch</Link>
                     </Typography>
-                    <Typography
+                    {/* <Typography
                       align="center"
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 5 }}
                     >
                       NFT visionary and AI expert.
-                     </Typography>
+                     </Typography> */}
 
                     </Grid> 
 

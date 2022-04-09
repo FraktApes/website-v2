@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, Grid, IconButton, Paper, Typography } from "@material-ui/core";
+import { Button, DialogContent, Grid, IconButton, Paper, Typography } from "@material-ui/core";
 import { DialogTitle } from "@mui/material";
 import { FunctionComponent } from "react";
 import WhiteApe from "../images/Frakt-4941ape3180.png"
@@ -28,7 +28,7 @@ const MintWhiteApe: FunctionComponent<Props> = ({
     return (
         <Paper style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 10, paddingTop: 0 }}>
             <BootstrapDialogTitle id="modal" onClose={onClose}>
-                White Apes
+            <Typography style={{ color: "white", fontFamily: "robo"}} variant="h5" align="center">White Apes</Typography>
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container direction="column" justifyContent="center">
@@ -79,18 +79,21 @@ const MintWhiteApe: FunctionComponent<Props> = ({
                         DEGEN APE or FRAKT or WL - Snapshot date TBC.
                     </Typography>
 
-                </Grid>
-            </DialogContent>
-            <DialogActions>
-
-
-                <Button size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo" }} >
+                    <Button  size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft:"auto", marginRight:"auto", marginTop: 20 }} >
                     Mint
                 </Button>
+                </Grid>
+            </DialogContent>
+            {/* <DialogActions> */}
+
+
+                {/* <Button  size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft:"auto", marginRight:"auto" }} >
+                    Mint
+                </Button> */}
                 {/* <Button autoFocus onClick={onClose} style={{background:"grey", color: "white", fontFamily: "robo"}} >
                     Close
                 </Button> */}
-            </DialogActions>
+            {/* </DialogActions> */}
         </Paper>
     )
 }
