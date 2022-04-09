@@ -6,25 +6,35 @@ import { FunctionComponent } from "react";
 import { MintCountdown } from "../MintCountdown";
 
 import "../ribbon.css";
-import MintModal from "./MintModal";
+import MintNotLive from "./MintNotLive";
+import MintWhiteApe from "./MintWhiteApe";
 
 interface Props {
     countdownTime: number;
     backgroundImage?: string;
     name?: string;
+    connected: boolean;
 }
 const MintPaper: FunctionComponent<Props> = ({
     countdownTime,
     backgroundImage,
     name
 }) => {
-    const [open, setOpen] = React.useState(false);
+    const [openLive, setOpenLive] = React.useState(false);
+    const [openNotLive, setOpenNotLive] = React.useState(false);
 
     const handleClickOpen = () => {
-        setOpen(true);
+        setOpenLive(true);
     };
     const handleClose = () => {
-        setOpen(false);
+        setOpenLive(false);
+    };
+
+    const handleClickOpenNotLive = () => {
+        setOpenNotLive(true);
+    };
+    const handleCloseNotLive = () => {
+        setOpenNotLive(false);
     };
 
 
@@ -33,41 +43,52 @@ const MintPaper: FunctionComponent<Props> = ({
     return (
         <Button >
             {!isLive ?
-                <Paper elevation={0} variant="outlined" style={{ backgroundColor: "#130110", borderRadius: 10 }} >
-                    <Box sx={{
-                        width: 430,
-                        height: 80,
-                    }} >
-                        <Grid container direction="row" style={{ margin: 5, width: "100%" }}>
-                            <Grid item xs={5}>
-                                <Typography align="center"
-                                    variant="body2"
-                                    style={{ color: "white", fontFamily: "robo", marginTop: 12, marginLeft: 25 }}>
-                                    Free NFT
-                                </Typography>
-                                <Typography align="center"
-                                    variant="body2"
-                                    style={{ color: "white", fontFamily: "robo", marginBottom: 6, marginLeft: 25 }}>
-                                    Available in:
-                                </Typography>
+                <>
+                    <Dialog
+                        onClose={handleCloseNotLive}
+                        aria-labelledby="customized-dialog-title"
+                        open={openNotLive}
+                    >
+                        <MintNotLive onClose={handleCloseNotLive} name="Coming Soon...." requirement="Genesis Ape" />
+                    </Dialog>
+                    <Paper elevation={0} variant="outlined" style={{ backgroundColor: "#130110", borderRadius: 10 }} >
+                        <Box sx={{
+                            width: 430,
+                            height: 80,
+                            display: 'flex'
+                        }}  
+                        onClick={handleClickOpenNotLive} >
+                            <Grid container direction="row" style={{ margin: 5, width: "100%" }}>
+                                <Grid item xs={5}>
+                                    <Typography align="center"
+                                        variant="body2"
+                                        style={{ color: "white", fontFamily: "robo", marginTop: 12, marginLeft: 25 }}>
+                                        Free NFT
+                                    </Typography>
+                                    <Typography align="center"
+                                        variant="body2"
+                                        style={{ color: "white", fontFamily: "robo", marginBottom: 6, marginLeft: 25 }}>
+                                        Available in:
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={7}>
+                                    <MintCountdown
+                                        date={new Date(countdownTime)}
+                                        style={{ justifyContent: "center", marginTop: 6 }}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={7}>
-                                <MintCountdown
-                                    date={new Date(countdownTime)}
-                                    style={{ justifyContent: "center", marginTop: 6 }}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Paper>
+                        </Box>
+                    </Paper>
+                </>
                 :
                 <>
                     <Dialog
                         onClose={handleClose}
                         aria-labelledby="customized-dialog-title"
-                        open={open}
+                        open={openLive}
                     >
-                        <MintModal onClose={handleClose} name="White Apes" />
+                        <MintWhiteApe onClose={handleClose} name="White Apes" />
                     </Dialog>
                     <Paper elevation={0} style={{
                         backgroundImage: `url(${backgroundImage})`,
@@ -78,6 +99,7 @@ const MintPaper: FunctionComponent<Props> = ({
                         <Box sx={{
                             width: 430,
                             height: 80,
+                            display: 'flex'
                         }}
                             onClick={handleClickOpen}
                         >

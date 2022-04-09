@@ -14,7 +14,7 @@ interface Props {
     onClose: () => void;
 }
 
-const MintModal: FunctionComponent<Props> = ({
+const MintWhiteApe: FunctionComponent<Props> = ({
     name,
     image,
     text1,
@@ -67,7 +67,7 @@ const MintModal: FunctionComponent<Props> = ({
                     <Typography
                         align="center"
                         variant="body1"
-                        style={{ color: "white", fontFamily: "robo", marginTop: 20 }}
+                        style={{ color: "white", fontFamily: "robo", marginTop: 25 }}
                     >
                         Required to mint:
                     </Typography>
@@ -124,4 +124,4 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
     );
 };
 
-export default MintModal;
+export default MintWhiteApe;

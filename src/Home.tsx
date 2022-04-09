@@ -33,6 +33,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import MintPaper from "./components/MintPaper";
 import WhiteApeBanner from "./images/white-apes-banner2.png"
+import Patch from "./images/patch.png"
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -316,15 +317,15 @@ const Home = (props: HomeProps) => {
                 <TabPanel value="1">
                   <Grid container spacing={2} direction="column">
                     <Grid item>
-                      <MintPaper name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
+                      <MintPaper connected={wallet.connected} name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
                       </MintPaper>
                     </Grid>
                     <Grid item>
-                      <MintPaper countdownTime={new Date().getTime() + 86400000 / 2}>
+                      <MintPaper connected={wallet.connected} countdownTime={new Date().getTime() + 86400000 / 2}>
                       </MintPaper>
                     </Grid>
                     <Grid item>
-                      <MintPaper countdownTime={new Date().getTime() + 86400000}>
+                      <MintPaper connected={wallet.connected} countdownTime={new Date().getTime() + 86400000}>
                       </MintPaper>
                     </Grid>
                   </Grid>
@@ -351,6 +352,7 @@ const Home = (props: HomeProps) => {
                       <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 5, paddingRight: 5 }} href="https://www.degenape.academy/">The Degen Ape Academy</Link>
                       and
                       <Link variant="body1" underline="always" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 5 }} href="http://www.frakt.art/">FRAKT</Link>, two OG Solana NFT projects.
+                      888 Genesis Apes have been created from the rarest Degen Apes and FRAKT artwork.
                     </Typography>
 
                     <Typography
@@ -358,31 +360,143 @@ const Home = (props: HomeProps) => {
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                     >
-                      888 Genesis Apes have been created from the rarest Degen Apes and FRAKT artwork.
+
                       Owning a Genesis ape will give access to all the free AI NFT Launchpad mints.
                     </Typography>
 
                     <Typography
-                        align="center"
-                        variant="body1"
-                        style={{ color: "white", fontFamily: "robo", marginTop: 20 }}
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 25 }}
                     >
-                        Required to mint:
+                      Required to mint:
                     </Typography>
                     <Typography
-                        align="center"
-                        variant="body1"
-                        style={{ color: "white", fontFamily: "robo" }}
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo" }}
                     >
-                        2 SOL
+                      2 SOL
                     </Typography>
 
-                    <Button style={{ background: "#36454F", color: "white", fontFamily: "robo", marginTop: 10 }} >
+                    {/* <Button style={{ background: "#36454F", color: "white", fontFamily: "robo", marginTop: 10 }} >
                       Mint
-                    </Button>
+                    </Button> */}
+
+
+                    {/* Mint /////// */}
+                    {!wallet.connected ? (
+                      <Grid container direction="column" justifyContent="center">
+                        {/* <Grid container direction="row" justifyContent="center" style={{ marginBottom: 2 }}>
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "grey" }}
+                    >
+                      Mint Countdown
+                    </Typography>
+
+                    <Tooltip
+                      title="Best Practice: Use a new/burner wallet when minting, nefarious projects will try and steal your funds with malicious smart contracts"
+                      style={{ marginLeft: 4, color: "grey", fontSize: "1.05em" }}>
+                      <HelpIcon fontSize="small" />
+
+                    </Tooltip>
+                  </Grid> */}
+
+                        <MintCountdown
+                          date={new Date(new Date().getTime() + 86400000 / 2)}
+                          style={{ justifyContent: "center" }}
+                        />
+
+                        <ConnectButton>Connect Wallet</ConnectButton>
+                      </Grid>
+                    ) : (
+                      <>
+                        <Header candyMachine={candyMachine} />
+                        <MintContainer>
+                          {candyMachine?.state.isActive &&
+                            candyMachine?.state.gatekeeper &&
+                            wallet.publicKey &&
+                            wallet.signTransaction ? (
+                            <GatewayProvider
+                              wallet={{
+                                publicKey:
+                                  wallet.publicKey ||
+                                  new PublicKey(CANDY_MACHINE_PROGRAM),
+                                //@ts-ignore
+                                signTransaction: wallet.signTransaction
+                              }}
+                              gatekeeperNetwork={
+                                candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                              }
+                              clusterUrl={rpcUrl}
+                              options={{ autoShowModal: false }}
+                            >
+                              <MintButton
+                                candyMachine={candyMachine}
+                                isMinting={isUserMinting}
+                                onMint={onMint}
+                              />
+                            </GatewayProvider>
+                          ) : (
+                            <MintButton
+                              candyMachine={candyMachine}
+                              isMinting={isUserMinting}
+                              onMint={onMint}
+                            />
+                          )}
+                        </MintContainer>
+                      </>
+                    )}
                   </Grid>
                 </TabPanel>
-                <TabPanel value="3"></TabPanel>
+                <TabPanel value="3">
+
+                  <Grid container direction="column" justifyContent="center">
+
+                  <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 0 }}
+                    >
+                      Frakt Apes are an NFT collection giving access to an AI NFT launchpad.
+                     </Typography>
+                    
+
+                     <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 20, marginBottom: 20}}
+                    >
+                      Royalties from the collection will be used to fund community artists to feature in the launchpad, giving Genesis Ape holders ongoing utility.
+                     </Typography>
+
+                    <img src={Patch} alt="loading..." style={{
+                      width: "35%",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }} />
+
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                    >
+                      A Project by 
+                      <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 8}} href="https://twitter.com/PatchNFT">Patch</Link>
+                    </Typography>
+                    <Typography
+                      align="center"
+                      variant="body1"
+                      style={{ color: "white", fontFamily: "robo", marginTop: 5 }}
+                    >
+                      NFT visionary and AI expert.
+                     </Typography>
+
+                    </Grid> 
+
+                </TabPanel>
               </TabContext>
 
             </Paper>
@@ -412,42 +526,12 @@ const Home = (props: HomeProps) => {
                     </Tooltip>
                   </Grid>
 
-                  {/*<Tooltip*/}
-                  {/*  title="Always use a new/burner wallet when minting, some nefarious projects will try and steal your funds">*/}
-                  {/*  <Button>*/}
-                  {/*    <i*/}
-                  {/*    className="fa-solid fa-circle-question fa-1x"*/}
-                  {/*    style={{ color: "#fff" }}*/}
-                  {/*  ></i>*/}
-                  {/*  </Button>*/}
-                  {/*</Tooltip>*/}
-                  {/*    <Button*/}
-                  {/*      // style={{ marginLeft: 10 }}*/}
-                  {/*    >*/}
-                  {/*      <i*/}
-                  {/*        className="fa-solid fa-circle-question fa-1x"*/}
-                  {/*        style={{ color: "#fff" }}*/}
-                  {/*      ></i>*/}
-                  {/*    </Button>*/}
-                  {/*  </Tooltip>*/}
-                  {/*</Grid>*/}
-
-
-
-
                   <MintCountdown
                     date={new Date(1646899200000)}
                     style={{ justifyContent: "center" }}
                   />
 
                   <ConnectButton>Connect Wallet</ConnectButton>
-                  {/*<Typography*/}
-                  {/*  align="center"*/}
-                  {/*  variant="body1"*/}
-                  {/*  style={{ color: "grey" }}*/}
-                  {/*>*/}
-                  {/*  Click the project info button or connect your wallet.*/}
-                  {/*</Typography>*/}
                 </Grid>
               ) : (
                 <>
