@@ -68,7 +68,17 @@ const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
   }
 };
 
+const getCandyMachineIdsArray = (): anchor.web3.PublicKey[] => {
+  try {
+    return [getCandyMachineId()!, getCandyMachineId()!];
+  } catch (e) {
+    console.log("Failed to construct CandyMachineId", e);
+    return [];
+  }
+};
+
 const candyMachineId = getCandyMachineId();
+const candyMachineIdsArray = getCandyMachineIdsArray();
 const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
 const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST!;
 const connection = new anchor.web3.Connection(
@@ -113,6 +123,7 @@ const App = () => {
             >
               <Home
                 candyMachineId={candyMachineId}
+                candyMachineIdsArray={candyMachineIdsArray}
                 connection={connection}
                 startDate={startDateSeed}
                 txTimeout={txTimeoutInMilliseconds}

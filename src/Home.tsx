@@ -34,13 +34,14 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import MintPaper from "./components/MintPaper";
 import WhiteApeBanner from "./images/white-apes-banner2.png"
 import Patch from "./images/patch.png"
+import { CandyMachineEnums } from "./const/candy-machinenn-enums";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
   height: 60px;
   margin-top: 10px;
   margin-bottom: 5px;
-  background: linear-gradient(180deg, #604ae5 0%, #813eee 100%);
+  background: linear-gradient(180deg, #36454F 0%, #45535B 100%);
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -50,6 +51,7 @@ const MintContainer = styled.div``; // add your owns styles here
 
 export interface HomeProps {
   candyMachineId?: anchor.web3.PublicKey;
+  candyMachineIdsArray: anchor.web3.PublicKey[];
   connection: anchor.web3.Connection;
   startDate: number;
   txTimeout: number;
@@ -60,6 +62,8 @@ export interface HomeProps {
 const Home = (props: HomeProps) => {
   const [isUserMinting, setIsUserMinting] = useState(false);
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
+  const [candyMachineArray, setCandyMachineArray] = useState<CandyMachineAccount[]>([]);
+
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
     message: "",
@@ -102,12 +106,39 @@ const Home = (props: HomeProps) => {
           props.connection
         );
         setCandyMachine(cndy);
+        console.log("candy machine state: ", cndy);
       } catch (e) {
         console.log("There was a problem fetching Candy Machine state");
         console.log(e);
       }
     }
   }, [anchorWallet, props.candyMachineId, props.connection]);
+
+  const refreshCandyMachineArrayState = useCallback(async () => {
+    if (!anchorWallet) {
+      return;
+    }
+
+    if (props.candyMachineIdsArray && props.candyMachineIdsArray.length > 0) {
+      try {
+        const candyMachineArrayCopy = [];
+        for (const candyMachineId of props.candyMachineIdsArray) {
+          const index = props.candyMachineIdsArray.indexOf(candyMachineId);
+          const cndy = await getCandyMachineState(
+            anchorWallet,
+            props.candyMachineIdsArray[index],
+            props.connection
+          );
+          candyMachineArrayCopy[index] = cndy;
+        }
+        console.log("candy machine array state: ", candyMachineArrayCopy);
+        setCandyMachineArray(candyMachineArrayCopy);
+      } catch (e) {
+        console.log("There was a problem fetching Candy Machine state");
+        console.log(e);
+      }
+    }
+  }, [anchorWallet, props.candyMachineIdsArray, props.connection]);
 
   const onMint = async () => {
     try {
@@ -173,52 +204,26 @@ const Home = (props: HomeProps) => {
 
   useEffect(() => {
     refreshCandyMachineState();
+    refreshCandyMachineArrayState();
+    // refreshCandyMachineArrayState(CandyMachineEnums.WHITE_APES);
+    
+
   }, [
     anchorWallet,
-    props.candyMachineId,
+    props.candyMachineIdsArray,
     props.connection,
+    refreshCandyMachineArrayState,
     refreshCandyMachineState
   ]);
 
   const toggleInfo = () => {
     console.log(infoState.showInfo);
     if (infoState.showInfo) {
-      // setInfoState({ showInfo: true });
-      // TODO CHANGE BACK TO FALSE
       setInfoState({ showInfo: false });
     } else {
       setInfoState({ showInfo: true });
     }
   };
-  // let theme = createTheme();
-  //
-  // const styles = (theme: Theme) => ({
-  //   root: {
-  //     margin: "auto",
-  //     [theme.breakpoints.down("md")]: {
-  //       width: "50%"
-  //     },
-  //     [theme.breakpoints.up("md")]: {
-  //       width: "75%"
-  //     },
-  //     [theme.breakpoints.up("lg")]: {
-  //       width: "90%"
-  //     }
-  //   }
-  // });
-
-  // const IMG2 = styled("img")(({ theme }) => ({
-  //   margin: "auto",
-  //   [theme.breakpoints.down("md")]: {
-  //     width: "50%"
-  //   },
-  //   [theme.breakpoints.up("md")]: {
-  //     width: "75%"
-  //   },
-  //   [theme.breakpoints.up("lg")]: {
-  //     width: "90%"
-  //   }
-  // }));
 
   const theme = useTheme();
 
@@ -229,7 +234,7 @@ const Home = (props: HomeProps) => {
     lg: 1367,
     xl: 1536
   };
-  // const matches = useMediaQuery(theme.breakpoints.up("lg"));
+
   const matchesMobile = useMediaQuery(theme.breakpoints.up("md"));
 
   const [value, setValue] = React.useState('2');
@@ -317,7 +322,14 @@ const Home = (props: HomeProps) => {
                 <TabPanel value="1">
                   <Grid container spacing={2} direction="column">
                     <Grid item>
-                      <MintPaper tooltip="Requires: Degen Ape or FRAKT or WL" connected={wallet.connected} name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
+                      <MintPaper mintProps={
+                        {
+                            rpcUrl,
+                            candyMachine: candyMachineArray[CandyMachineEnums.GENESIS_APES],
+                            wallet,
+                            isUserMinting,
+                            onMint}
+                        } tooltip="Requires: Degen Ape or FRAKT or WL" connected={wallet.connected} name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
                       </MintPaper>
                     </Grid>
                     <Grid item>
@@ -387,23 +399,6 @@ const Home = (props: HomeProps) => {
                     {/* Mint /////// */}
                     {!wallet.connected ? (
                       <Grid container direction="column" justifyContent="center">
-                        {/* <Grid container direction="row" justifyContent="center" style={{ marginBottom: 2 }}>
-                    <Typography
-                      align="center"
-                      variant="body1"
-                      style={{ color: "grey" }}
-                    >
-                      Mint Countdown
-                    </Typography>
-
-                    <Tooltip
-                      title="Best Practice: Use a new/burner wallet when minting, nefarious projects will try and steal your funds with malicious smart contracts"
-                      style={{ marginLeft: 4, color: "grey", fontSize: "1.05em" }}>
-                      <HelpIcon fontSize="small" />
-
-                    </Tooltip>
-                  </Grid> */}
-
                         <MintCountdown
                           date={new Date(new Date().getTime() + 86400000 / 2)}
                           style={{ justifyContent: "center" }}
@@ -455,22 +450,22 @@ const Home = (props: HomeProps) => {
 
                   <Grid container direction="column" justifyContent="center">
 
-                  <Typography
+                    <Typography
                       align="center"
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 0 }}
                     >
                       Frakt Apes are an NFT collection giving access to an AI NFT launchpad.
-                     </Typography>
-                    
+                    </Typography>
 
-                     <Typography
+
+                    <Typography
                       align="center"
                       variant="body1"
-                      style={{ color: "white", fontFamily: "robo", marginTop: 20, marginBottom: 20}}
+                      style={{ color: "white", fontFamily: "robo", marginTop: 20, marginBottom: 20 }}
                     >
                       Royalties from the collection will be used to fund community artists to feature in the launchpad, giving Genesis Ape holders ongoing utility.
-                     </Typography>
+                    </Typography>
 
                     <img src={Patch} alt="loading..." style={{
                       width: "35%",
@@ -483,18 +478,60 @@ const Home = (props: HomeProps) => {
                       variant="body1"
                       style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                     >
-                      A Project by 
-                      <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 8}} href="https://twitter.com/PatchNFT">Patch</Link>
+                      A Project by
+                      <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 8 }} href="https://twitter.com/PatchNFT">Patch</Link>
                     </Typography>
-                    {/* <Typography
-                      align="center"
-                      variant="body1"
-                      style={{ color: "white", fontFamily: "robo", marginTop: 5 }}
-                    >
-                      NFT visionary and AI expert.
-                     </Typography> */}
 
-                    </Grid> 
+                    {/* Mint /////// */}
+                    {!wallet.connected ? (
+                      <Grid container direction="column" justifyContent="center">
+                        <MintCountdown
+                          date={new Date(new Date().getTime() + 86400000 / 2)}
+                          style={{ justifyContent: "center" }}
+                        />
+
+                        <ConnectButton>Connect Wallet</ConnectButton>
+                      </Grid>
+                    ) : (
+                      <>
+                        <Header candyMachine={candyMachineArray[CandyMachineEnums.GENESIS_APES]} />
+                        <MintContainer>
+                          {candyMachineArray[CandyMachineEnums.GENESIS_APES]?.state.isActive &&
+                            candyMachineArray[CandyMachineEnums.GENESIS_APES]?.state.gatekeeper &&
+                            wallet.publicKey &&
+                            wallet.signTransaction ? (
+                            <GatewayProvider
+                              wallet={{
+                                publicKey:
+                                  wallet.publicKey ||
+                                  new PublicKey(CANDY_MACHINE_PROGRAM),
+                                //@ts-ignore
+                                signTransaction: wallet.signTransaction
+                              }}
+                              gatekeeperNetwork={
+                                candyMachineArray[CandyMachineEnums.GENESIS_APES]?.state?.gatekeeper?.gatekeeperNetwork
+                              }
+                              clusterUrl={rpcUrl}
+                              options={{ autoShowModal: false }}
+                            >
+                              <MintButton
+                                candyMachine={candyMachineArray[CandyMachineEnums.GENESIS_APES]}
+                                isMinting={isUserMinting}
+                                onMint={onMint}
+                              />
+                            </GatewayProvider>
+                          ) : (
+                            <MintButton
+                              candyMachine={candyMachineArray[CandyMachineEnums.GENESIS_APES]}
+                              isMinting={isUserMinting}
+                              onMint={onMint}
+                            />
+                          )}
+                        </MintContainer>
+                      </>
+                    )}
+
+                  </Grid>
 
                 </TabPanel>
               </TabContext>

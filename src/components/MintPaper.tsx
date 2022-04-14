@@ -1,8 +1,11 @@
 // Write a react component  
 
 import { Box, Button, Dialog, Grid, Paper, Tooltip, Typography } from "@material-ui/core";
+import { WalletContextState } from "@solana/wallet-adapter-react";
 import React from "react";
 import { FunctionComponent } from "react";
+import { CandyMachineAccount } from "../candy-machine";
+import { MintProps } from "../interfaces/MintProps";
 import { MintCountdown } from "../MintCountdown";
 
 import "../ribbon.css";
@@ -15,12 +18,14 @@ interface Props {
     name?: string;
     connected: boolean;
     tooltip: string;
+    mintProps?:MintProps;
 }
 const MintPaper: FunctionComponent<Props> = ({
     countdownTime,
     backgroundImage,
     name,
-    tooltip
+    tooltip,
+    mintProps,
 }) => {
     const [openLive, setOpenLive] = React.useState(false);
     const [openNotLive, setOpenNotLive] = React.useState(false);
@@ -66,14 +71,14 @@ const MintPaper: FunctionComponent<Props> = ({
                                     <Grid item xs={5}>
                                         <Typography align="center"
                                             variant="body2"
-                                            style={{ color: "white", fontFamily: "robo", marginTop: 12, marginLeft: 25 }}>
-                                            Free NFT
+                                            style={{ color: "white", fontFamily: "robo", marginTop: 22, marginLeft: 25 }}>
+                                            Available in:
                                         </Typography>
-                                        <Typography align="center"
+                                        {/* <Typography align="center"
                                             variant="body2"
                                             style={{ color: "white", fontFamily: "robo", marginBottom: 6, marginLeft: 25 }}>
                                             Available in:
-                                        </Typography>
+                                        </Typography> */}
                                     </Grid>
                                     <Grid item xs={7}>
                                         <MintCountdown
@@ -92,7 +97,7 @@ const MintPaper: FunctionComponent<Props> = ({
                             aria-labelledby="customized-dialog-title"
                             open={openLive}
                         >
-                            <MintWhiteApe onClose={handleClose} name="White Apes" />
+                            <MintWhiteApe onClose={handleClose} name="White Apes" mintProps={mintProps!} />
                         </Dialog>
                         <Paper elevation={0} style={{
                             backgroundImage: `url(${backgroundImage})`,

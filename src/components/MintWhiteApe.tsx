@@ -1,9 +1,22 @@
-import { Button, DialogContent, Grid, IconButton, Paper, Typography } from "@material-ui/core";
+import { Button, Container, DialogContent, Grid, IconButton, Paper, Typography } from "@material-ui/core";
 import { DialogTitle } from "@mui/material";
 import { FunctionComponent } from "react";
 import WhiteApe from "../images/Frakt-4941ape3180.png"
 import CloseIcon from '@mui/icons-material/Close';
-
+import { MintCountdown } from "../MintCountdown";
+import styled from "styled-components";
+import { WalletDialogButton } from "@solana/wallet-adapter-material-ui/lib/WalletDialogButton";
+import { Header } from "../Header";
+import { GatewayProvider } from "@civic/solana-gateway-react";
+import {
+    CandyMachineAccount,
+    CANDY_MACHINE_PROGRAM,
+  } from "../candy-machine";
+import { MintButton } from "../MintButton";
+import { WalletContextState } from "@solana/wallet-adapter-react/lib/useWallet";
+import { PublicKey } from "@solana/web3.js";
+import { MintProps } from "../interfaces/MintProps";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 interface Props {
     name?: string;
@@ -12,7 +25,19 @@ interface Props {
     text2?: string;
     mintAddress?: string;
     onClose: () => void;
+    mintProps: MintProps;
 }
+
+const ConnectButton = styled(WalletDialogButton)`
+  width: 100%;
+  height: 60px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  background: linear-gradient(180deg, #36454F 0%, #45535B 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+`;
 
 const MintWhiteApe: FunctionComponent<Props> = ({
     name,
@@ -20,15 +45,18 @@ const MintWhiteApe: FunctionComponent<Props> = ({
     text1,
     text2,
     mintAddress,
-    onClose
+    onClose,
+    mintProps,
 }) => {
 
+    const { isUserMinting, candyMachine, rpcUrl, onMint} = mintProps
+    const wallet = useWallet();
     // const {close} = useModalContext();
 
     return (
         <Paper style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 10, paddingTop: 0 }}>
             <BootstrapDialogTitle id="modal" onClose={onClose}>
-            <Typography style={{ color: "white", fontFamily: "robo"}} variant="h5" align="center">White Apes</Typography>
+                <Typography style={{ color: "white", fontFamily: "robo" }} variant="h5" align="center">White Apes</Typography>
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container direction="column" justifyContent="center">
@@ -39,6 +67,7 @@ const MintWhiteApe: FunctionComponent<Props> = ({
                     >
                         Required to mint: DEGEN APE or FRAKT or WL
                     </Typography> */}
+
 
                     <img src={WhiteApe} alt="loading ..." style={{
                         width: "70%",
@@ -79,18 +108,67 @@ const MintWhiteApe: FunctionComponent<Props> = ({
                         DEGEN APE or FRAKT or WL - Snapshot date TBC.
                     </Typography>
 
-                    <Button  size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft:"auto", marginRight:"auto", marginTop: 20 }} >
-                    Mint
-                </Button>
+                    <Button size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft: "auto", marginRight: "auto", marginTop: 20 }} >
+                        Mint
+                    </Button>
+
+                    {!wallet.connected ? (
+                      <Grid container direction="column" justifyContent="center">
+                        <MintCountdown
+                          date={new Date(new Date().getTime() + 86400000 / 2)}
+                          style={{ justifyContent: "center" }}
+                        />
+
+                        <ConnectButton>Connect Wallet</ConnectButton>
+                      </Grid>
+                    ) : (
+                      <>
+                        <Header candyMachine={candyMachine} />
+                        <Container>
+                          {candyMachine?.state.isActive &&
+                            candyMachine?.state.gatekeeper &&
+                            wallet.publicKey &&
+                            wallet.signTransaction ? (
+                            <GatewayProvider
+                              wallet={{
+                                publicKey:
+                                  wallet.publicKey ||
+                                  new PublicKey(CANDY_MACHINE_PROGRAM),
+                                //@ts-ignore
+                                signTransaction: wallet.signTransaction
+                              }}
+                              gatekeeperNetwork={
+                                candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                              }
+                              clusterUrl={rpcUrl}
+                              options={{ autoShowModal: false }}
+                            >
+                              <MintButton
+                                candyMachine={candyMachine}
+                                isMinting={isUserMinting}
+                                onMint={onMint}
+                              />
+                            </GatewayProvider>
+                          ) : (
+                            <MintButton
+                              candyMachine={candyMachine}
+                              isMinting={isUserMinting}
+                              onMint={onMint}
+                            />
+                          )}
+                        </Container>
+                      </>
+                    )}
+                    
                 </Grid>
             </DialogContent>
             {/* <DialogActions> */}
 
 
-                {/* <Button  size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft:"auto", marginRight:"auto" }} >
+            {/* <Button  size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft:"auto", marginRight:"auto" }} >
                     Mint
                 </Button> */}
-                {/* <Button autoFocus onClick={onClose} style={{background:"grey", color: "white", fontFamily: "robo"}} >
+            {/* <Button autoFocus onClick={onClose} style={{background:"grey", color: "white", fontFamily: "robo"}} >
                     Close
                 </Button> */}
             {/* </DialogActions> */}
