@@ -57,12 +57,19 @@ export interface HomeProps {
   txTimeout: number;
   rpcHost: string;
   showInfo: boolean;
+  launchTime: number;
 }
 
 const Home = (props: HomeProps) => {
   const [isUserMinting, setIsUserMinting] = useState(false);
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
   const [candyMachineArray, setCandyMachineArray] = useState<CandyMachineAccount[]>([]);
+
+  const [isLive, setIsLive] = useState(props.launchTime < new Date().getTime());
+  // setIsLive(props.launchTime < new Date().getTime());
+  // const [launchTime, setLaunchTime] = useState(new Date().getTime() + 10000);
+  // const launchTime = new Date().getTime() + 86400000 / 2
+
 
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
@@ -202,18 +209,23 @@ const Home = (props: HomeProps) => {
     }
   };
 
+
   useEffect(() => {
     refreshCandyMachineState();
     refreshCandyMachineArrayState();
-    // refreshCandyMachineArrayState(CandyMachineEnums.WHITE_APES);
     
+    const interval = setInterval(() => setIsLive(props.launchTime < new Date().getTime()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
 
   }, [
     anchorWallet,
     props.candyMachineIdsArray,
     props.connection,
     refreshCandyMachineArrayState,
-    refreshCandyMachineState
+    refreshCandyMachineState,
+    props.launchTime
   ]);
 
   const toggleInfo = () => {
@@ -242,7 +254,6 @@ const Home = (props: HomeProps) => {
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);
   };
-
 
   return (
     // <ThemeProvider theme={theme}>
@@ -324,12 +335,13 @@ const Home = (props: HomeProps) => {
                     <Grid item>
                       <MintPaper mintProps={
                         {
-                            rpcUrl,
-                            candyMachine: candyMachineArray[CandyMachineEnums.GENESIS_APES],
-                            wallet,
-                            isUserMinting,
-                            onMint}
-                        } tooltip="Requires: Degen Ape or FRAKT or WL" connected={wallet.connected} name={"White Apes"} countdownTime={new Date('December 17, 1995 13:24:00').getTime()} backgroundImage={WhiteApeBanner}>
+                          rpcUrl,
+                          candyMachine: candyMachineArray[CandyMachineEnums.GENESIS_APES],
+                          wallet,
+                          isUserMinting,
+                          onMint
+                        }
+                      } tooltip="Requires: Degen Ape or FRAKT or WL" connected={wallet.connected} name={"Neutral Apes"} countdownTime={props.launchTime} backgroundImage={WhiteApeBanner}>
                       </MintPaper>
                     </Grid>
                     <Grid item>
@@ -349,10 +361,40 @@ const Home = (props: HomeProps) => {
 
                   <Grid container direction="column" justifyContent="center">
 
+                    {/* <Grid container direction="column" justifyContent="center" >
+                      <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        border: 'solid white',
+                        borderRadius: 10,
+                        width: '85%',
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}>
+                        <Grid container direction="column" justifyContent="center">
+                          <Typography
+                            align="center"
+                            variant="body1"
+                            style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                          >
+                            Required to mint:
+                          </Typography>
+                          <Typography
+                            align="center"
+                            variant="body1"
+                            style={{ color: "white", fontFamily: "robo", marginBottom: 10 }}
+                          >
+                            2 SOL (WL 24 hours early access).
+                          </Typography>
+                        </Grid>
+                      </Box>
+                    </Grid> */}
+
                     <img src={apecompress} alt="loading..." style={{
                       width: "80%",
                       marginLeft: "auto",
-                      marginRight: "auto"
+                      marginRight: "auto",
+                      // marginTop: 10
                     }} />
 
                     <Typography
@@ -364,48 +406,28 @@ const Home = (props: HomeProps) => {
                       <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 5, paddingRight: 5 }} href="https://www.degenape.academy/">The Degen Ape Academy</Link>
                       and
                       <Link variant="body1" underline="always" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 5 }} href="http://www.frakt.art/">FRAKT</Link>, two OG Solana NFT projects.
-                      888 Genesis Apes have been created from the rarest Degen Apes and FRAKT artwork.
+                      {/* 888 Genesis Apes have been created from the rarest Degen Apes and FRAKT artwork. */}
                     </Typography>
 
                     <Typography
                       align="center"
                       variant="body1"
-                      style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                      style={{ color: "white", fontFamily: "robo", marginTop: 10, marginBottom: 10 }}
                     >
 
                       Owning a Genesis ape will give access to all the free AI NFT Launchpad mints.
                     </Typography>
 
-                    <Typography
-                      align="center"
-                      variant="body1"
-                      style={{ color: "white", fontFamily: "robo", marginTop: 25 }}
-                    >
-                      Required to mint:
-                    </Typography>
-                    <Typography
-                      align="center"
-                      variant="body1"
-                      style={{ color: "white", fontFamily: "robo" }}
-                    >
-                      2 SOL
-                    </Typography>
-
-                    {/* <Button style={{ background: "#36454F", color: "white", fontFamily: "robo", marginTop: 10 }} >
-                      Mint
-                    </Button> */}
-
-
                     {/* Mint /////// */}
                     {!wallet.connected ? (
-                      <Grid container direction="column" justifyContent="center">
-                        <MintCountdown
-                          date={new Date(new Date().getTime() + 86400000 / 2)}
-                          style={{ justifyContent: "center" }}
-                        />
-
-                        <ConnectButton>Connect Wallet</ConnectButton>
-                      </Grid>
+                        
+                        <>
+                        {!isLive ? (<MintCountdown
+                          date={new Date(props.launchTime)}
+                          style={{ justifyContent: "center" }}>
+                          </MintCountdown>) : (<ConnectButton>Connect Wallet</ConnectButton>)}
+                         </>
+                    
                     ) : (
                       <>
                         <Header candyMachine={candyMachine} />
@@ -481,55 +503,6 @@ const Home = (props: HomeProps) => {
                       A Project by
                       <Link variant="body1" underline="always" align="center" style={{ color: "white", fontFamily: "robo", margin: "auto", paddingLeft: 8 }} href="https://twitter.com/PatchNFT">Patch</Link>
                     </Typography>
-
-                    {/* Mint /////// */}
-                    {!wallet.connected ? (
-                      <Grid container direction="column" justifyContent="center">
-                        <MintCountdown
-                          date={new Date(new Date().getTime() + 86400000 / 2)}
-                          style={{ justifyContent: "center" }}
-                        />
-
-                        <ConnectButton>Connect Wallet</ConnectButton>
-                      </Grid>
-                    ) : (
-                      <>
-                        <Header candyMachine={candyMachineArray[CandyMachineEnums.GENESIS_APES]} />
-                        <MintContainer>
-                          {candyMachineArray[CandyMachineEnums.GENESIS_APES]?.state.isActive &&
-                            candyMachineArray[CandyMachineEnums.GENESIS_APES]?.state.gatekeeper &&
-                            wallet.publicKey &&
-                            wallet.signTransaction ? (
-                            <GatewayProvider
-                              wallet={{
-                                publicKey:
-                                  wallet.publicKey ||
-                                  new PublicKey(CANDY_MACHINE_PROGRAM),
-                                //@ts-ignore
-                                signTransaction: wallet.signTransaction
-                              }}
-                              gatekeeperNetwork={
-                                candyMachineArray[CandyMachineEnums.GENESIS_APES]?.state?.gatekeeper?.gatekeeperNetwork
-                              }
-                              clusterUrl={rpcUrl}
-                              options={{ autoShowModal: false }}
-                            >
-                              <MintButton
-                                candyMachine={candyMachineArray[CandyMachineEnums.GENESIS_APES]}
-                                isMinting={isUserMinting}
-                                onMint={onMint}
-                              />
-                            </GatewayProvider>
-                          ) : (
-                            <MintButton
-                              candyMachine={candyMachineArray[CandyMachineEnums.GENESIS_APES]}
-                              isMinting={isUserMinting}
-                              onMint={onMint}
-                            />
-                          )}
-                        </MintContainer>
-                      </>
-                    )}
 
                   </Grid>
 

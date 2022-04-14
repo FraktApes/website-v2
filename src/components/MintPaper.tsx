@@ -1,10 +1,8 @@
 // Write a react component  
 
 import { Box, Button, Dialog, Grid, Paper, Tooltip, Typography } from "@material-ui/core";
-import { WalletContextState } from "@solana/wallet-adapter-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
-import { CandyMachineAccount } from "../candy-machine";
 import { MintProps } from "../interfaces/MintProps";
 import { MintCountdown } from "../MintCountdown";
 
@@ -29,6 +27,8 @@ const MintPaper: FunctionComponent<Props> = ({
 }) => {
     const [openLive, setOpenLive] = React.useState(false);
     const [openNotLive, setOpenNotLive] = React.useState(false);
+    const [isLive, setIsLive] = useState(countdownTime < new Date().getTime());
+    // setIsLive(countdownTime < new Date().getTime());
 
     const handleClickOpen = () => {
         setOpenLive(true);
@@ -44,8 +44,14 @@ const MintPaper: FunctionComponent<Props> = ({
         setOpenNotLive(false);
     };
 
-
-    const isLive = countdownTime < new Date().getTime()
+    useEffect(() => {
+        const interval = setInterval(() => setIsLive(countdownTime < new Date().getTime()), 1000);
+        return () => {
+          clearInterval(interval);
+        };
+    
+      }, [countdownTime
+      ]);
 
     return (
         <Tooltip title={!isLive?(<Typography variant="body1" style={{ color: "white", fontFamily: "robo" }}>{tooltip}</Typography>):""}  arrow>
@@ -97,7 +103,7 @@ const MintPaper: FunctionComponent<Props> = ({
                             aria-labelledby="customized-dialog-title"
                             open={openLive}
                         >
-                            <MintWhiteApe onClose={handleClose} name="White Apes" mintProps={mintProps!} />
+                            <MintWhiteApe onClose={handleClose} name={name} mintProps={mintProps!} />
                         </Dialog>
                         <Paper elevation={0} style={{
                             backgroundImage: `url(${backgroundImage})`,

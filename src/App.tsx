@@ -129,6 +129,7 @@ const App = () => {
                 txTimeout={txTimeoutInMilliseconds}
                 rpcHost={rpcHost}
                 showInfo={true}
+                launchTime={new Date().getTime() + 10000}
               />
             </YoutubeBackground>
           </WalletDialogProvider>

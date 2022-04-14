@@ -1,19 +1,16 @@
-import { Button, Container, DialogContent, Grid, IconButton, Paper, Typography } from "@material-ui/core";
+import { Box, Container, DialogContent, Grid, IconButton, Paper, Typography } from "@material-ui/core";
 import { DialogTitle } from "@mui/material";
 import { FunctionComponent } from "react";
 import WhiteApe from "../images/Frakt-4941ape3180.png"
 import CloseIcon from '@mui/icons-material/Close';
-import { MintCountdown } from "../MintCountdown";
 import styled from "styled-components";
 import { WalletDialogButton } from "@solana/wallet-adapter-material-ui/lib/WalletDialogButton";
 import { Header } from "../Header";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import {
-    CandyMachineAccount,
     CANDY_MACHINE_PROGRAM,
-  } from "../candy-machine";
+} from "../candy-machine";
 import { MintButton } from "../MintButton";
-import { WalletContextState } from "@solana/wallet-adapter-react/lib/useWallet";
 import { PublicKey } from "@solana/web3.js";
 import { MintProps } from "../interfaces/MintProps";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -49,24 +46,42 @@ const MintWhiteApe: FunctionComponent<Props> = ({
     mintProps,
 }) => {
 
-    const { isUserMinting, candyMachine, rpcUrl, onMint} = mintProps
+    const { isUserMinting, candyMachine, rpcUrl, onMint } = mintProps
     const wallet = useWallet();
-    // const {close} = useModalContext();
 
     return (
         <Paper style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 10, paddingTop: 0 }}>
             <BootstrapDialogTitle id="modal" onClose={onClose}>
-                <Typography style={{ color: "white", fontFamily: "robo" }} variant="h5" align="center">White Apes</Typography>
+                <Typography style={{ color: "white", fontFamily: "robo" }} variant="h5" align="center">{name}</Typography>
             </BootstrapDialogTitle>
             <DialogContent dividers>
-                <Grid container direction="column" justifyContent="center">
-                    {/* <Typography
-                        align="center"
-                        variant="body1"
-                        style={{ color: "white", fontFamily: "robo" }}
-                    >
-                        Required to mint: DEGEN APE or FRAKT or WL
-                    </Typography> */}
+                <Grid container direction="column" justifyContent="center" >
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center', 
+                        border: 'solid white', 
+                        borderRadius: 10,
+                        width  : '80%',
+                        marginLeft: "auto",
+                        marginRight: "auto",    
+                    }}>
+                        <Grid container direction="column" justifyContent="center">
+                            <Typography
+                                align="center"
+                                variant="body1"
+                                style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
+                            >
+                                Required to mint:
+                            </Typography>
+                            <Typography
+                                align="center"
+                                variant="body1"
+                                style={{ color: "white", fontFamily: "robo", marginBottom: 10 }}
+                            >
+                                DEGEN APE or FRAKT or WL - Snapshot date TBC.
+                            </Typography>
+                        </Grid>
+                    </Box>
 
 
                     <img src={WhiteApe} alt="loading ..." style={{
@@ -90,76 +105,58 @@ const MintWhiteApe: FunctionComponent<Props> = ({
                         variant="body1"
                         style={{ color: "white", fontFamily: "robo", marginTop: 10 }}
                     >
-                        8888 White Apes have been created to give back to the Degen Ape and FRAKT communities.
+                        8888 Neutral Apes have been created to give back to the Degen Ape and FRAKT communities.
                     </Typography>
 
-                    <Typography
-                        align="center"
-                        variant="body1"
-                        style={{ color: "white", fontFamily: "robo", marginTop: 25 }}
-                    >
-                        Required to mint:
-                    </Typography>
-                    <Typography
-                        align="center"
-                        variant="body1"
-                        style={{ color: "white", fontFamily: "robo" }}
-                    >
-                        DEGEN APE or FRAKT or WL - Snapshot date TBC.
-                    </Typography>
 
-                    <Button size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft: "auto", marginRight: "auto", marginTop: 20 }} >
+
+                    {/* <Button size="large" style={{ background: "#36454F", color: "white", fontFamily: "robo", marginLeft: "auto", marginRight: "auto", marginTop: 20 }} >
                         Mint
-                    </Button>
+                    </Button> */}
 
                     {!wallet.connected ? (
-                      <Grid container direction="column" justifyContent="center">
-                        <MintCountdown
-                          date={new Date(new Date().getTime() + 86400000 / 2)}
-                          style={{ justifyContent: "center" }}
-                        />
-
-                        <ConnectButton>Connect Wallet</ConnectButton>
-                      </Grid>
+                        <Grid container direction="column" justifyContent="center">
+                            <ConnectButton>Connect Wallet</ConnectButton>
+                        </Grid>
                     ) : (
-                      <>
-                        <Header candyMachine={candyMachine} />
-                        <Container>
-                          {candyMachine?.state.isActive &&
-                            candyMachine?.state.gatekeeper &&
-                            wallet.publicKey &&
-                            wallet.signTransaction ? (
-                            <GatewayProvider
-                              wallet={{
-                                publicKey:
-                                  wallet.publicKey ||
-                                  new PublicKey(CANDY_MACHINE_PROGRAM),
-                                //@ts-ignore
-                                signTransaction: wallet.signTransaction
-                              }}
-                              gatekeeperNetwork={
-                                candyMachine?.state?.gatekeeper?.gatekeeperNetwork
-                              }
-                              clusterUrl={rpcUrl}
-                              options={{ autoShowModal: false }}
-                            >
-                              <MintButton
-                                candyMachine={candyMachine}
-                                isMinting={isUserMinting}
-                                onMint={onMint}
-                              />
-                            </GatewayProvider>
-                          ) : (
-                            <MintButton
-                              candyMachine={candyMachine}
-                              isMinting={isUserMinting}
-                              onMint={onMint}
-                            />
-                          )}
-                        </Container>
-                      </>
+                        <Grid container direction="column" justifyContent="center">
+                            <Header candyMachine={candyMachine} />
+                            <Container>
+                                {candyMachine?.state.isActive &&
+                                    candyMachine?.state.gatekeeper &&
+                                    wallet.publicKey &&
+                                    wallet.signTransaction ? (
+                                    <GatewayProvider
+                                        wallet={{
+                                            publicKey:
+                                                wallet.publicKey ||
+                                                new PublicKey(CANDY_MACHINE_PROGRAM),
+                                            //@ts-ignore
+                                            signTransaction: wallet.signTransaction
+                                        }}
+                                        gatekeeperNetwork={
+                                            candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                                        }
+                                        clusterUrl={rpcUrl}
+                                        options={{ autoShowModal: false }}
+                                    >
+                                        <MintButton
+                                            candyMachine={candyMachine}
+                                            isMinting={isUserMinting}
+                                            onMint={onMint}
+                                        />
+                                    </GatewayProvider>
+                                ) : (
+                                    <MintButton
+                                        candyMachine={candyMachine}
+                                        isMinting={isUserMinting}
+                                        onMint={onMint}
+                                    />
+                                )}
+                            </Container>
+                        </Grid>
                     )}
-                    
+
                 </Grid>
             </DialogContent>
             {/* <DialogActions> */}
