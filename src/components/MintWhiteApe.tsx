@@ -49,6 +49,10 @@ const MintWhiteApe: FunctionComponent<Props> = ({
     const { isUserMinting, candyMachine, rpcUrl, onMint } = mintProps
     const wallet = useWallet();
 
+    console.log(candyMachine, "candyMachine")
+    console.log(isUserMinting, "isUserMinting")
+    console.log(onMint, "onMint")
+
     return (
         <Paper style={{ padding: 16, backgroundColor: "#151A1F", borderRadius: 10, paddingTop: 0 }}>
             <BootstrapDialogTitle id="modal" onClose={onClose}>

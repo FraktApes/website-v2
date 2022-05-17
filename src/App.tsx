@@ -70,14 +70,18 @@ const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
 
 const getCandyMachineIdsArray = (): anchor.web3.PublicKey[] => {
   try {
-    return [getCandyMachineId()!, getCandyMachineId()!];
+    return [new anchor.web3.PublicKey(
+      process.env.REACT_APP_CANDY_MACHINE_ID_NEUTRAL!
+    ), new anchor.web3.PublicKey(
+      process.env.REACT_APP_CANDY_MACHINE_ID_NEUTRAL!
+    )];
   } catch (e) {
     console.log("Failed to construct CandyMachineId", e);
     return [];
   }
 };
 
-const candyMachineId = getCandyMachineId();
+// const candyMachineId = getCandyMachineId();
 const candyMachineIdsArray = getCandyMachineIdsArray();
 const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
 const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST!;
@@ -122,7 +126,6 @@ const App = () => {
               playerOptions={{ modestbranding: 1 }}
             >
               <Home
-                candyMachineId={candyMachineId}
                 candyMachineIdsArray={candyMachineIdsArray}
                 connection={connection}
                 startDate={startDateSeed}

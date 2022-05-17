@@ -62,7 +62,7 @@ export interface HomeProps {
 
 const Home = (props: HomeProps) => {
   const [isUserMinting, setIsUserMinting] = useState(false);
-  const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
+  // const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>();
   const [candyMachineArray, setCandyMachineArray] = useState<CandyMachineAccount[]>([]);
 
   const [isLive, setIsLive] = useState(props.launchTime < new Date().getTime());
@@ -100,26 +100,26 @@ const Home = (props: HomeProps) => {
     } as anchor.Wallet;
   }, [wallet]);
 
-  const refreshCandyMachineState = useCallback(async () => {
-    if (!anchorWallet) {
-      return;
-    }
+  // const refreshCandyMachineState = useCallback(async () => {
+  //   if (!anchorWallet) {
+  //     return;
+  //   }
 
-    if (props.candyMachineId) {
-      try {
-        const cndy = await getCandyMachineState(
-          anchorWallet,
-          props.candyMachineId,
-          props.connection
-        );
-        setCandyMachine(cndy);
-        console.log("candy machine state: ", cndy);
-      } catch (e) {
-        console.log("There was a problem fetching Candy Machine state");
-        console.log(e);
-      }
-    }
-  }, [anchorWallet, props.candyMachineId, props.connection]);
+  //   if (props.candyMachineId) {
+  //     try {
+  //       const cndy = await getCandyMachineState(
+  //         anchorWallet,
+  //         props.candyMachineId,
+  //         props.connection
+  //       );
+  //       setCandyMachine(cndy);
+  //       console.log("candy machine state: ", cndy);
+  //     } catch (e) {
+  //       console.log("There was a problem fetching Candy Machine state");
+  //       console.log(e);
+  //     }
+  //   }
+  // }, [anchorWallet, props.candyMachineId, props.connection]);
 
   const refreshCandyMachineArrayState = useCallback(async () => {
     if (!anchorWallet) {
@@ -147,13 +147,75 @@ const Home = (props: HomeProps) => {
     }
   }, [anchorWallet, props.candyMachineIdsArray, props.connection]);
 
-  const onMint = async () => {
+  // const onMint = async () => {
+  //   try {
+  //     setIsUserMinting(true);
+  //     document.getElementById("#identity")?.click();
+  //     if (wallet.connected && candyMachine?.program && wallet.publicKey) {
+  //       const mintTxId = (
+  //         await mintOneToken(candyMachine, wallet.publicKey)
+  //       )[0];
+
+  //       let status: any = { err: true };
+  //       if (mintTxId) {
+  //         status = await awaitTransactionSignatureConfirmation(
+  //           mintTxId,
+  //           props.txTimeout,
+  //           props.connection,
+  //           true
+  //         );
+  //       }
+
+  //       if (status && !status.err) {
+  //         setAlertState({
+  //           open: true,
+  //           message: "Congratulations! Mint succeeded!",
+  //           severity: "success"
+  //         });
+  //       } else {
+  //         setAlertState({
+  //           open: true,
+  //           message: "Mint failed! Please try again!",
+  //           severity: "error"
+  //         });
+  //       }
+  //     }
+  //   } catch (error: any) {
+  //     let message = error.msg || "Minting failed! Please try again!";
+  //     if (!error.msg) {
+  //       if (!error.message) {
+  //         message = "Transaction Timeout! Please try again.";
+  //       } else if (error.message.indexOf("0x137")) {
+  //         message = `SOLD OUT!`;
+  //       } else if (error.message.indexOf("0x135")) {
+  //         message = `Insufficient funds to mint. Please fund your wallet.`;
+  //       }
+  //     } else {
+  //       if (error.code === 311) {
+  //         message = `SOLD OUT!`;
+  //         window.location.reload();
+  //       } else if (error.code === 312) {
+  //         message = `Minting period hasn't started yet.`;
+  //       }
+  //     }
+
+  //     setAlertState({
+  //       open: true,
+  //       message,
+  //       severity: "error"
+  //     });
+  //   } finally {
+  //     setIsUserMinting(false);
+  //   }
+  // };
+
+  const onMintNeutral = async () => {
     try {
       setIsUserMinting(true);
       document.getElementById("#identity")?.click();
-      if (wallet.connected && candyMachine?.program && wallet.publicKey) {
+      if (wallet.connected && candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.program && wallet.publicKey) {
         const mintTxId = (
-          await mintOneToken(candyMachine, wallet.publicKey)
+          await mintOneToken(candyMachineArray[CandyMachineEnums.NEUTRAL_APES], wallet.publicKey)
         )[0];
 
         let status: any = { err: true };
@@ -211,7 +273,7 @@ const Home = (props: HomeProps) => {
 
 
   useEffect(() => {
-    refreshCandyMachineState();
+    // refreshCandyMachineState();
     refreshCandyMachineArrayState();
     
     const interval = setInterval(() => setIsLive(props.launchTime < new Date().getTime()), 1000);
@@ -224,7 +286,7 @@ const Home = (props: HomeProps) => {
     props.candyMachineIdsArray,
     props.connection,
     refreshCandyMachineArrayState,
-    refreshCandyMachineState,
+    // refreshCandyMachineState,
     props.launchTime
   ]);
 
@@ -336,10 +398,10 @@ const Home = (props: HomeProps) => {
                       <MintPaper mintProps={
                         {
                           rpcUrl,
-                          candyMachine: candyMachineArray[CandyMachineEnums.GENESIS_APES],
+                          candyMachine: candyMachineArray[CandyMachineEnums.NEUTRAL_APES],
                           wallet,
                           isUserMinting,
-                          onMint
+                          onMint:onMintNeutral
                         }
                       } tooltip="Requires: Degen Ape or FRAKT or WL" connected={wallet.connected} name={"Neutral Apes"} countdownTime={props.launchTime} backgroundImage={WhiteApeBanner}>
                       </MintPaper>
@@ -430,10 +492,10 @@ const Home = (props: HomeProps) => {
                     
                     ) : (
                       <>
-                        <Header candyMachine={candyMachine} />
+                        <Header candyMachine={candyMachineArray[CandyMachineEnums.NEUTRAL_APES]} />
                         <MintContainer>
-                          {candyMachine?.state.isActive &&
-                            candyMachine?.state.gatekeeper &&
+                          {candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.state.isActive &&
+                            candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.state.gatekeeper &&
                             wallet.publicKey &&
                             wallet.signTransaction ? (
                             <GatewayProvider
@@ -445,22 +507,22 @@ const Home = (props: HomeProps) => {
                                 signTransaction: wallet.signTransaction
                               }}
                               gatekeeperNetwork={
-                                candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                                candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.state?.gatekeeper?.gatekeeperNetwork
                               }
                               clusterUrl={rpcUrl}
                               options={{ autoShowModal: false }}
                             >
                               <MintButton
-                                candyMachine={candyMachine}
+                                candyMachine={candyMachineArray[CandyMachineEnums.NEUTRAL_APES]}
                                 isMinting={isUserMinting}
-                                onMint={onMint}
+                                onMint={onMintNeutral}
                               />
                             </GatewayProvider>
                           ) : (
                             <MintButton
-                              candyMachine={candyMachine}
+                              candyMachine={candyMachineArray[CandyMachineEnums.NEUTRAL_APES]}
                               isMinting={isUserMinting}
-                              onMint={onMint}
+                              onMint={onMintNeutral}
                             />
                           )}
                         </MintContainer>
@@ -545,10 +607,10 @@ const Home = (props: HomeProps) => {
                 </Grid>
               ) : (
                 <>
-                  <Header candyMachine={candyMachine} />
+                  <Header candyMachine={candyMachineArray[CandyMachineEnums.NEUTRAL_APES]} />
                   <MintContainer>
-                    {candyMachine?.state.isActive &&
-                      candyMachine?.state.gatekeeper &&
+                    {candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.state.isActive &&
+                      candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.state.gatekeeper &&
                       wallet.publicKey &&
                       wallet.signTransaction ? (
                       <GatewayProvider
@@ -560,22 +622,22 @@ const Home = (props: HomeProps) => {
                           signTransaction: wallet.signTransaction
                         }}
                         gatekeeperNetwork={
-                          candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                          candyMachineArray[CandyMachineEnums.NEUTRAL_APES]?.state?.gatekeeper?.gatekeeperNetwork
                         }
                         clusterUrl={rpcUrl}
                         options={{ autoShowModal: false }}
                       >
                         <MintButton
-                          candyMachine={candyMachine}
+                          candyMachine={candyMachineArray[CandyMachineEnums.NEUTRAL_APES]}
                           isMinting={isUserMinting}
-                          onMint={onMint}
+                          onMint={onMintNeutral}
                         />
                       </GatewayProvider>
                     ) : (
                       <MintButton
-                        candyMachine={candyMachine}
+                        candyMachine={candyMachineArray[CandyMachineEnums.NEUTRAL_APES]}
                         isMinting={isUserMinting}
-                        onMint={onMint}
+                        onMint={onMintNeutral}
                       />
                     )}
                   </MintContainer>
