@@ -1,28 +1,21 @@
 import "./App.css";
-import { useMemo } from "react";
+import React from "react";
 import * as anchor from "@project-serum/anchor";
 import Home from "./Home";
 import "./fonts.css";
 
-import { clusterApiUrl } from "@solana/web3.js";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import {
-  getPhantomWallet,
-  getSlopeWallet,
-  getSolflareWallet,
-  getSolletWallet,
-  getSolletExtensionWallet
-} from "@solana/wallet-adapter-wallets";
-
-import {
-  ConnectionProvider,
-  WalletProvider
-} from "@solana/wallet-adapter-react";
-import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
+import { ConnectionProvider } from './contexts/ConnectionContext';
+// import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 
 import { ThemeProvider, createTheme } from "@material-ui/core";
 import YoutubeBackground from "react-youtube-background";
 import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
+import { SPLTokenListProvider } from "./contexts/tokenList";
+import { WalletProvider } from "./contexts/WalletContext";
+import { LoaderProvider } from './components/Loader';
+import { BrowserRouter } from "react-router-dom";
+import { CoingeckoProvider } from "./contexts/coingecko";
+import { WalletDialogProvider } from "@solana/wallet-adapter-material-ui";
 
 let theme = createTheme({
   palette: {
@@ -54,7 +47,7 @@ theme.typography.body1 = {
   // }
 };
 
-
+// eslint-disable-next-line
 const getCandyMachineId = (): anchor.web3.PublicKey | undefined => {
   try {
     const candyMachineId = new anchor.web3.PublicKey(
@@ -83,28 +76,32 @@ const getCandyMachineIdsArray = (): anchor.web3.PublicKey[] => {
 
 // const candyMachineId = getCandyMachineId();
 const candyMachineIdsArray = getCandyMachineIdsArray();
-const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
+// const network = process.env.REACT_APP_SOLANA_NETWORK as WalletAdapterNetwork;
 const rpcHost = process.env.REACT_APP_SOLANA_RPC_HOST!;
 const connection = new anchor.web3.Connection(
   rpcHost ? rpcHost : anchor.web3.clusterApiUrl("devnet")
 );
 
+console.log(connection.rpcEndpoint)
+
 const startDateSeed = parseInt(process.env.REACT_APP_CANDY_START_DATE!, 10);
 const txTimeoutInMilliseconds = 30000;
 
 const App = () => {
-  const endpoint = useMemo(() => clusterApiUrl(network), []);
+  // eslint-disable-next-line
+  // const endpoint = useMemo(() => clusterApiUrl(network), []);
 
-  const wallets = useMemo(
-    () => [
-      getPhantomWallet(),
-      getSolflareWallet(),
-      getSlopeWallet(),
-      getSolletWallet({ network }),
-      getSolletExtensionWallet({ network })
-    ],
-    []
-  );
+  // eslint-disable-next-line
+  // const wallets = useMemo(
+  //   () => [
+  //     getPhantomWallet(),
+  //     getSolflareWallet(),
+  //     getSlopeWallet(),
+  //     getSolletWallet({ network }),
+  //     getSolletExtensionWallet({ network })
+  //   ],
+  //   []
+  // );
 
   const videoId = "wRmK2zv1ezw";
   const style = {
@@ -117,27 +114,35 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect>
-          <WalletDialogProvider>
-            <YoutubeBackground
-              style={style}
-              videoId={videoId}
-              playerOptions={{ modestbranding: 1 }}
-            >
-              <Home
-                candyMachineIdsArray={candyMachineIdsArray}
-                connection={connection}
-                startDate={startDateSeed}
-                txTimeout={txTimeoutInMilliseconds}
-                rpcHost={rpcHost}
-                showInfo={true}
-                launchTime={new Date().getTime() + 10000}
-              />
-            </YoutubeBackground>
-          </WalletDialogProvider>
-        </WalletProvider>
-      </ConnectionProvider>
+      <BrowserRouter>
+        <ConnectionProvider>
+          <SPLTokenListProvider>
+            <CoingeckoProvider>
+              <LoaderProvider>
+                <WalletProvider>
+                  <WalletDialogProvider>
+                    <YoutubeBackground
+                      style={style}
+                      videoId={videoId}
+                      playerOptions={{ modestbranding: 1 }}
+                    >
+                      <Home
+                        candyMachineIdsArray={candyMachineIdsArray}
+                        connection={connection}
+                        startDate={startDateSeed}
+                        txTimeout={txTimeoutInMilliseconds}
+                        // rpcHost={rpcHost}
+                        showInfo={true}
+                        launchTime={new Date().getTime() + 10000}
+                      />
+                    </YoutubeBackground>
+                  </WalletDialogProvider>
+                </WalletProvider>
+              </LoaderProvider>
+            </CoingeckoProvider>
+          </SPLTokenListProvider>
+        </ConnectionProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

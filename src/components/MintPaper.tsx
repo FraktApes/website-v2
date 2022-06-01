@@ -1,6 +1,6 @@
 // Write a react component  
 
-import { Box, Button, Dialog, Grid, Paper, Tooltip, Typography } from "@material-ui/core";
+import {  Box, Button, Dialog, Grid, Paper, Tooltip, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import { MintProps } from "../interfaces/MintProps";
@@ -67,11 +67,12 @@ const MintPaper: FunctionComponent<Props> = ({
                             <MintNotLive onClose={handleCloseNotLive} name="Coming Soon...." requirement="Genesis Ape or 1 SOL" />
                         </Dialog>
                         <Paper elevation={0} variant="outlined" style={{ backgroundColor: "#130110", borderRadius: 10 }} >
-                            <Box sx={{
-                                width: 430,
-                                height: 80,
-                                display: 'flex'
-                            }}
+                            <Box 
+                            // sx={{
+                            //     width: 430,
+                            //     height: 80,
+                            //     display: 'flex'
+                            // }}
                                 onClick={handleClickOpenNotLive} >
                                 <Grid container direction="row" style={{ margin: 5, width: "100%" }}>
                                     <Grid item xs={5}>
