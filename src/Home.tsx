@@ -3,9 +3,9 @@ import * as anchor from "@project-serum/anchor";
 import BN from 'bn.js';
 import * as bs58 from 'bs58';
 import styled from "styled-components";
-import { Box, Container, Link, Snackbar, Tab, CircularProgress } from "@material-ui/core";
+import { Box, Container, Link, Tab, CircularProgress } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import Alert from "@material-ui/lab/Alert";
+// import Alert from "@material-ui/lab/Alert";
 import { AccountMeta, Keypair, PublicKey, SystemProgram, Transaction, TransactionInstruction, Connection as RPCConnection, SYSVAR_INSTRUCTIONS_PUBKEY, SYSVAR_RECENT_BLOCKHASHES_PUBKEY, SYSVAR_CLOCK_PUBKEY, SYSVAR_RENT_PUBKEY } from "@solana/web3.js";
 import { useAnchorWallet, useWallet } from "@solana/wallet-adapter-react";
 import {
@@ -35,6 +35,7 @@ import { explorerLinkFor, sendSignedTransaction } from './utils/transactions';
 import { MerkleTree } from "./utils/merkleTree";
 import { MintLayout, Token } from "@solana/spl-token";
 import { WalletDialogButton } from "@solana/wallet-adapter-material-ui";
+import 'antd/dist/antd.css'
 // import { useConnection } from "./contexts/ConnectionContext";
 // import { useConnection as useGumdropConnection } from './contexts/ConnectionContext';
 // import { ConnectButton } from "./components/ConnectButton";
@@ -223,7 +224,7 @@ const Home = (props: HomeProps) => {
   // const [launchTime, setLaunchTime] = useState(new Date().getTime() + 10000);
   // const launchTime = new Date().getTime() + 86400000 / 2
 
-
+// eslint-disable-next-line
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
     message: "",
@@ -984,7 +985,6 @@ const Home = (props: HomeProps) => {
   };
 
   React.useEffect(() => {
-    console.log('useEffect');
     if (!wallet) {
       return;
     }
@@ -1131,11 +1131,11 @@ const Home = (props: HomeProps) => {
         signedTransaction: tx,
       });
       console.log(result);
-      setAlertState({
-                  open: true,
-                  message: "Congratulations! Mint succeeded!",
-                  severity: "success"
-                });
+      // setAlertState({
+      //             open: true,
+      //             message: "Congratulations! Mint succeeded!",
+      //             severity: "success"
+      //           });
       notify({
         message: `Claim succeeded: ${idx + 1} of ${fullySigned.length}`,
         description: (
@@ -1225,7 +1225,7 @@ const Home = (props: HomeProps) => {
             <Typography
               align="center"
               variant="h2"
-              style={{ fontWeight: 1000, marginBottom: 5, fontFamily: "robo" }}
+              style={{ fontWeight: 1000, marginBottom: 5, fontFamily: "robo", color: "white" }}
             >
               Frakt Apes
             </Typography>
@@ -1233,7 +1233,7 @@ const Home = (props: HomeProps) => {
             <Typography
               align="center"
               variant="h6"
-              style={{ fontWeight: 400, marginBottom: 5, fontFamily: "robo" }}
+              style={{ fontWeight: 400, marginBottom: 5, fontFamily: "robo", color: "white" }}
             >
               Your gateway to NFTs built by AI
             </Typography>
@@ -1402,11 +1402,11 @@ const Home = (props: HomeProps) => {
                                     message: 'Claim failed',
                                     description: `${err}`,
                                   });
-                                  setAlertState({
-                                    open: true,
-                                    message: `Claim failed: ${err}`,
-                                    severity: "error"
-                                  });
+                                  // setAlertState({
+                                  //   open: true,
+                                  //   message: `Claim failed: ${err}`,
+                                  //   severity: "error"
+                                  // });
                                   // })
                                   setLoading(false);
                                 }
@@ -1539,7 +1539,7 @@ const Home = (props: HomeProps) => {
           // </Container>
           <></>
         )}
-
+{/* 
         <Snackbar
           open={alertState.open}
           autoHideDuration={6000}
@@ -1551,7 +1551,7 @@ const Home = (props: HomeProps) => {
           >
             {alertState.message}
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
       </Container>
     </Container >
     // </ThemeProvider>

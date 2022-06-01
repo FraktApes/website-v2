@@ -8,7 +8,6 @@ export function notify({
   txid = '',
   type = 'info',
   placement = 'topRight',
-  className = 'notify-class',
 }) {
   if (txid) {
     //   <Link
@@ -27,9 +26,5 @@ export function notify({
       <span style={{ color: 'black', opacity: 1 }}>{description}</span>
     ),
     placement,
-    style: {
-      backgroundColor: 'white',
-    },
-    className
   });
 }
