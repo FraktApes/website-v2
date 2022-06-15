@@ -143,8 +143,7 @@ const Home = (props: HomeProps) => {
     }
   }
 
-  const url = "https://gumdrop.metaplex.com//claim?distributor=6PtjYmSaPABvwJyiPy2WE2z8sUAAuouXviBdk5PFghZu&method=wallets&handle=Wi98X8ujGe9WpNLwBMGPUzeyqEUb4EABLmJpCRrP7XG&amount=1&index=4&proof=9APctAZaTqp86fSxjRkK3gLURWDFnJg9cSuUAnQ8WDZF&pin=NA&candy=7aJCx9baQpvZMq9trGh6gC4YR2bTWVSChiHgQYzj1yD4&tokenAcc=CHNYum3JVna5aKYS6pEfEyFxkgrcKbAfKMzpfmdBpy55"
-
+  const url = "https://gumdrop.metaplex.com//claim?distributor=5v2UmJeCSJrrrLwYBVMRcaYDXXWP9cUp5dZB9zVdcJBb&method=wallets&handle=Wi98X8ujGe9WpNLwBMGPUzeyqEUb4EABLmJpCRrP7XG&amount=1&index=3&proof=EzSBDiymG6F4EKkMtGnm4zyCUr676qjHv4sv9Q2TZhTp,5eNtbomDvPgxZRG8PyvwcDkdmdxdJV3As2zBsSQK6Cvu,FoB99uvsQXCgq87jVLk14KFdU81Btpu7w64rxPXBzJig&pin=NA&candy=HuuitYGRfeR7gGuoShQFhrf3j3Sf3nAX7fCzRf331B29&tokenAcc=6y7oFZ75MzJJ7FPHCFZiwCB25NchXSY3BPktHULGcmCo"
 
   const params = urlToParams(url)
   console.log(params)
@@ -1113,6 +1112,11 @@ const Home = (props: HomeProps) => {
       txnNeedsTemporalSigner.addSignature(GUMDROP_TEMPORAL_SIGNER, sig);
     }
 
+    if (transaction.setup === null){
+      // THIS LINE WILL MEAN THAT ONLY ONE NFT PER URL CAN BE CLAIMED
+      throw new Error('NFT already claimed using this url');
+    }
+
     let fullySigned;
     try {
       fullySigned = await wallet.signAllTransactions(
@@ -1130,7 +1134,7 @@ const Home = (props: HomeProps) => {
         connection: rpc_connection_manual,
         signedTransaction: tx,
       });
-      console.log(result);
+      console.log("Claim Success");
       // setAlertState({
       //             open: true,
       //             message: "Congratulations! Mint succeeded!",
